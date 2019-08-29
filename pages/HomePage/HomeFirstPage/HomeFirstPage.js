@@ -1,8 +1,12 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {View, Text, Button, Image} from 'react-native';
+import {View, Text, Button, Image, Dimensions, ScrollView} from 'react-native';
 import ShopCard from '../../components/ShopCard/ShopCard';
+import ActCard from '../../components/ActCard/ActCard';
+import {BoxShadow} from 'react-native-shadow';
 
+
+const {allWidth, allHeight} = Dimensions.get('window');
 
 
 export default class HomeFirstPage extends React.Component{
@@ -13,43 +17,77 @@ export default class HomeFirstPage extends React.Component{
 
 
     render(){
+
+
         return(
-            <View style={{
+            <ScrollView>
+                <View style={{
 
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <View style={styles.searchPanel}>
-                    <Text
-                        style={styles.searchText}
-                    >搜索美食、校园活动</Text>
-                </View>
+                    width:allWidth,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <View style={styles.searchPanel}>
+                        <Text
+                            style={styles.searchText}
+                        >搜索美食、校园活动</Text>
+                    </View>
 
-                <View
-                    style={styles.banner}
-                >
-                    <Image
-                        style={{
+                    <View
+                        style={styles.banner}
+                    >
+                        <Image
+                            style={{
+                                width:330,
+                                height:110
+                            }}
+                            source={require('../../images/Banner.jpg')}
+                        />
+                    </View>
+
+                    <View style={styles.todayEat}>
+                        <Text
+                            style={styles.eatTitle}
+                        >今天吃什么</Text>
+                    </View>
+                    <View
+                        style={styles.shopPanel}
+                    >
+                        <ShopCard/>
+                        <ShopCard/>
+                    </View>
+
+                    <View
+                        style={styles.activitiesPanel}
+                    >
+                        <Text
+                            style={{
+                                fontSize:18,
+                                fontWeight: 'bold'
+                            }}
+                        >热门推荐 · 美食</Text>
+                        <View
+                            style={{
+                                width:57,
+                                height:3,
+                                backgroundColor:'#55acee',
+                                marginTop:7,
+                                marginLeft:7
+                            }}
+                        >
+                        </View>
+                        <View style={{
                             width:330,
-                            height:110
-                        }}
-                        source={require('../../images/Banner.jpg')}
-                    />
-                </View>
+                            marginTop: 22
 
-                <View style={styles.todayEat}>
-                    <Text
-                        style={styles.eatTitle}
-                    >今天吃什么</Text>
-                </View>
-                <View
-                    style={styles.shopPanel}
-                >
-                    <ShopCard/>
-                    <ShopCard/>
-                </View>
+                        }}>
+                            <ActCard/>
+                            <ActCard/>
+                        </View>
+                    </View>
 
-            </View>
+                </View>
+            </ScrollView>
         )
     }
 }
@@ -90,6 +128,11 @@ const styles = StyleSheet.create({
         justifyContent:'flex-start',
         flexDirection:'row'
 
+    },
+    activitiesPanel:{
+        marginTop: 32,
+        width: 330,
+        justifyContent:'flex-start'
     }
 });
 
