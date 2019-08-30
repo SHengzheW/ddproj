@@ -35,8 +35,6 @@ import {
 
 
 
-
-
 const AppNavigator = createStackNavigator({
   First: FirstPage,
   FinishResume: FinishResume,

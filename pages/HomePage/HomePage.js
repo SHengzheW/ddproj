@@ -2,10 +2,11 @@ import React from 'react';
 import {View, Text, Button, Image} from 'react-native';
 import {createBottomTabNavigator, createAppContainer} from 'react-navigation';
 
-import HomeFirst from './HomeFirstPage/HomeFirstPage';
+import HomeFirstPage from './HomeContainer/HomeFirstPage/HomeFirstPage';
 import HomeSecond from './HomeSecondPage/HomeSecondPage';
 import HomeMyOrder from './HomeMyOrder/HomeMyOrder';
 import HomeMyInfo from './HomeMyInfo/HomeMyInfo';
+import HomeContainer from './HomeContainer/HomeContainer';
 
 
 /*
@@ -16,7 +17,7 @@ import HomeMyInfo from './HomeMyInfo/HomeMyInfo';
  */
 
 const TabNavigator = createBottomTabNavigator({
-    HomeFirst: HomeFirst,
+    HomeFirst: HomeContainer,
     HomeSecond: HomeSecond,
     HomeMyOrder: HomeMyOrder,
     HomeMyInfo: HomeMyInfo

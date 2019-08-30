@@ -1,12 +1,15 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {View, Text, Button, Image, Dimensions, ScrollView} from 'react-native';
-import ShopCard from '../../components/ShopCard/ShopCard';
-import ActCard from '../../components/ActCard/ActCard';
+import {View, Text, Button, Image, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
+import ShopCard from '../../../components/ShopCard/ShopCard';
+import ActCard from '../../../components/ActCard/ActCard';
 import {BoxShadow} from 'react-native-shadow';
+import {createAppContainer, createStackNavigator} from 'react-navigation';
+import SearchPage from '../../SearchPage/SearchPage';
 
 
 const {allWidth, allHeight} = Dimensions.get('window');
+
 
 
 export default class HomeFirstPage extends React.Component{
@@ -14,6 +17,9 @@ export default class HomeFirstPage extends React.Component{
         super(props);
     }
 
+    static navigationOptions={
+        header:null
+    };
 
 
     render(){
@@ -27,11 +33,17 @@ export default class HomeFirstPage extends React.Component{
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}>
-                    <View style={styles.searchPanel}>
-                        <Text
-                            style={styles.searchText}
-                        >搜索美食、校园活动</Text>
-                    </View>
+                    <TouchableOpacity
+                        onPress={()=>{
+                            this.props.navigation.navigate('HomeSearchPage');
+                        }}
+                    >
+                        <View style={styles.searchPanel}>
+                            <Text
+                                style={styles.searchText}
+                            >搜索美食、校园活动</Text>
+                        </View>
+                    </TouchableOpacity>
 
                     <View
                         style={styles.banner}
@@ -41,7 +53,7 @@ export default class HomeFirstPage extends React.Component{
                                 width:330,
                                 height:110
                             }}
-                            source={require('../../images/Banner.jpg')}
+                            source={require('../../../images/Banner.jpg')}
                         />
                     </View>
 
