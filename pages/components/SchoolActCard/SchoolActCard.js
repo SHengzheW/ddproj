@@ -29,13 +29,13 @@ export default class SchoolActCard extends React.Component{
 
         const shadowOpt = {
             width:330, //包裹的子内容多宽这里必须多宽
-            height:220,//同上
+            height:240,//同上
             color:"#eee",//阴影颜色
             border:6,//阴影宽度
             radius:10,//包裹的子元素圆角多少这里必须是多少
             opacity:0.7,//透明度
             x:0,
-            y:3,
+            y:2,
             style:{marginVertical:5}
         };
 
