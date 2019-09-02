@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, View, Text} from 'react-native';
 import {StyleSheet, Dimensions} from 'react-native';
 import ResultCard from '../../components/ResultCard/ResultCard';
+import TopResultCard from '../../components/TopResultCard/TopResultCard';
 
 
 
@@ -56,10 +57,34 @@ export default class SearchResult extends React.Component{
                         取消
                     </Text>
                 </View>
+                <View
+                    style={{
+                        marginTop:20
+                    }}
+                >
 
-                <ResultCard/>
+                    <TopResultCard/>
+                    <TopResultCard isLast={'yes'}/>
 
+                </View>
+                <View
+                    style={{
+                        width:allWidth,
+                        height:13,
+                        backgroundColor:'whitesmoke'
+                    }}
+                >
 
+                </View>
+                <View
+                    style={{
+                        marginTop:10,
+                    }}
+                >
+
+                    <ResultCard/>
+
+                </View>
 
             </View>
         );
