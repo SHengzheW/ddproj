@@ -1,31 +1,28 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {View, Text, Button} from 'react-native';
+import {createAppContainer, createStackNavigator} from 'react-navigation';
+import MyPage from './MyPage/MyPage';
 
 // the log in page
+
+const StackNavigator = createStackNavigator({
+    MyPage : MyPage
+},{
+    initialRouteName:'MyPage'
+});
+
+
+const AppContainer = createAppContainer(StackNavigator);
+
 
 export default class HomeMyInfo extends React.Component{
     constructor(props){
         super(props);
     }
 
-    naviNext(){
-        // this.props.navigation.navigate('')
-    }
-
-
     render(){
-        return(
-            <View style={{
-                flex:1,
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-
-                <Text>商品首页</Text>
-                <Button title="我的信息" onPress={this.naviNext()}/>
-            </View>
-        )
+        return <AppContainer/>;
     }
 }
 

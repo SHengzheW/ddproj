@@ -37,7 +37,7 @@ export default class OrderList extends React.Component{
             <View
                 style={{
                     flex:1,
-                    justifyContent:'center',
+                    justifyContent:'flex-start',
                     alignItems:'center'
                 }}
             >
