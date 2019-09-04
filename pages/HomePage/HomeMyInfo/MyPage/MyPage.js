@@ -2,8 +2,11 @@ import React from 'react';
 import {StyleSheet, Dimensions} from 'react-native';
 import {View, Button, Image, Text} from 'react-native';
 import BoxShadow from 'react-native-shadow/lib/BoxShadow';
+import UnusedOrderCard from '../../../components/UnusedOrderCard/UnusedOrderCard';
 
 const allWidth = Dimensions.get('window').width;
+
+const contentWidth = allWidth * 0.9;
 
 export default class MyPage extends React.Component{
     constructor(props){
@@ -203,11 +206,93 @@ export default class MyPage extends React.Component{
                         <View
                             style={styles.buttonPanel}
                         >
+                            <View
+                                style={styles.button}
+                            >
+                                <Image
+                                    source={require('../../../images/微简历.png')}
+                                    style={{
+                                        width:24,
+                                        height:24
+                                    }}
+                                />
+                                <Text
+                                    style={{
+                                        marginTop:5,
+                                        color:'#333',
+                                        fontSize:9
+                                    }}
+                                >
+                                    个人简历
+                                </Text>
+                            </View>
+                            <View
+                                style={styles.button}
+                            >
+                                <Image
+                                    source={require('../../../images/砍价.png')}
+                                    style={{
+                                        width:24,
+                                        height:24
+                                    }}
+                                />
+                                <Text
+                                    style={{
+                                        marginTop:5,
+                                        color:'#333',
+                                        fontSize:9
+                                    }}
+                                >
+                                    我的砍价
+                                </Text>
+                            </View>
+                            <View
+                                style={styles.button}
+                            >
+                                <Image
+                                    source={require('../../../images/收藏.png')}
+                                    style={{
+                                        width:24,
+                                        height:24
+                                    }}
+                                />
+                                <Text
+                                    style={{
+                                        marginTop:5,
+                                        color:'#333',
+                                        fontSize:9
+                                    }}
+                                >
+                                    我的收藏
+                                </Text>
+                            </View>
+                            <View
+                                style={styles.button}
+                            >
+                                <Image
+                                    source={require('../../../images/邀请码.png')}
+                                    style={{
+                                        width:24,
+                                        height:24
+                                    }}
+                                />
+                                <Text
+                                    style={{
+                                        marginTop:5,
+                                        color:'#333',
+                                        fontSize:9
+                                    }}
+                                >
+                                    邀请码
+                                </Text>
+                            </View>
+
                         </View>
                     </BoxShadow>
                     </View>
                 </View>
 
+                {/*底部待使用订单部分*/}
                 <View
                     style={{
                         width:allWidth*0.9,
@@ -220,9 +305,57 @@ export default class MyPage extends React.Component{
 
                         }}
                     >
-                        待处理订单
+                        待使用订单
                     </Text>
+
+                    <View
+                        style={{
+                            marginTop:20,
+                            width: contentWidth,
+
+                        }}
+                    >
+                        <UnusedOrderCard/>
+
+                        {/*没有订单时显示的界面*/}
+                        <View
+                            style={{
+                                marginTop:20,
+                                alignItems:'center'
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 14,
+                                    color:'#666'
+                                }}
+                            >
+                                暂时没有待使用的订单~
+                            </Text>
+                            <View
+                                style={{
+                                    width:116,
+                                    height:31,
+                                    borderRadius:15,
+                                    backgroundColor:'#55acee',
+                                    justifyContent:'center',
+                                    alignItems:'center',
+                                    marginTop:20
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        color:'white',
+                                        fontSize:14
+                                    }}
+                                >去逛逛</Text>
+                            </View>
+                        </View>
+                    </View>
+
                 </View>
+
+
 
 
 
@@ -289,6 +422,14 @@ const styles = StyleSheet.create({
         width:allWidth*0.9,
         height:93,
         backgroundColor:'#fff',
-        borderRadius:3
+        borderRadius:3,
+        flexDirection:'row'
+    },
+    button:{
+        width: contentWidth/4,
+        height:93,
+
+        justifyContent:'center',
+        alignItems:'center'
     }
 });

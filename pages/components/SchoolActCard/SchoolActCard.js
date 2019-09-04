@@ -72,16 +72,6 @@ export default class SchoolActCard extends React.Component{
                         >
                             <Text
                                 style={{
-                                    backgroundColor:'#A0E1FE',
-                                    color:'white',
-                                    borderRadius:3,
-                                    width:70,
-                                    height:24,
-                                }}
-                            >六院迎新
-                            </Text>
-                            <Text
-                                style={{
                                     fontSize:15,
                                     color:'#333'
                                 }}

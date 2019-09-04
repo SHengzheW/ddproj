@@ -1,20 +1,29 @@
 import React from 'react';
-import {View, Button, Text, Image} from 'react-native';
+import {View, Button, Text, Image, Dimensions, ScrollView} from 'react-native';
 import BoxShadow from 'react-native-shadow/lib/BoxShadow';
 import OrderCard from '../../../components/OrderCard/OrderCard';
 
+const allWidth = Dimensions.get('window').width;
 
+const tabWidth = Dimensions.get('window').width/5;
 
 export default class OrderList extends React.Component{
 
     constructor(props) {
         super(props);
 
-        this.state = {}
+        this.state = {
+            leftWhiteSpace: 0,
+            firstFont:'bold',
+            secondFont:'normal',
+            thirdFont:'normal',
+            forthFont:'normal',
+            fifthFont:'normal'
+        }
     }
 
     static navigationOptions={
-        title:'我的订单'
+        header: null
     };
 
 
@@ -38,13 +47,268 @@ export default class OrderList extends React.Component{
                 style={{
                     flex:1,
                     justifyContent:'flex-start',
-                    alignItems:'center'
+                    alignItems:'center',
+                    backgroundColor:'#fafafa'
                 }}
             >
-                <OrderCard/>
+                {/*顶部标题栏*/}
+                <View
+                    style={{
+                        width:Dimensions.get('window').width,
+                        height:120,
+                        backgroundColor:'white',
 
+                    }}
+                >
+                    {/*顶部标题栏“我的订单”和搜索图标*/}
+                    <View
+                        style={{
+                            width:Dimensions.get('window').width,
+                            height:30,
+                            flexDirection:'row',
+                            marginTop:40
+                        }}
+                    >
+                        <View
+                            style={{
+                                width:70,
+                                height:30
+                            }}
+                        >
+                        </View>
+                        <View
+                            style={{
+                                alignItems:'center',
+                                justifyContent:'center',
+                                width:Dimensions.get('window').width-70-70,
+                                height:30
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize:16,
+                                    fontWeight: 'bold'
+                                }}
+                            >
+                                我的订单
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                width:70,
+                                height:30,
+                                alignItems:'flex-end',
+                                justifyContent:'center'
+                            }}
+                        >
+                            <Image
+                                source={require('../../../images/搜索.png')}
+                                style={{
+                                    width:24,
+                                    height:24,
+                                    marginRight:20
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    {/*标题栏中的tab栏*/}
+                    <View
+                        style={{
+                            width:Dimensions.get('window').width,
+                            height:20,
+                            marginTop:20,
+                            flexDirection:'row'
+                        }}
+                    >
+                        <View
+                            style={{
+                                width:tabWidth,
+                                height:20,
+                                justifyContent:'center',
+                                alignItems:'center'
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize:14,
+                                    fontWeight:this.state.firstFont
+                                }}
+
+                                onPress={()=>{
+                                    this.setState({
+                                        leftWhiteSpace: 0,
+                                        firstFont:'bold',
+                                        secondFont:'normal',
+                                        thirdFont:'normal',
+                                        forthFont:'normal',
+                                        fifthFont:'normal'
+                                    })
+                                }}
+                            >
+                                全部
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                width:tabWidth,
+                                height:20,
+                                justifyContent:'center',
+                                alignItems:'center'
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize:14,
+                                    fontWeight:this.state.secondFont
+
+                                }}
+
+                                onPress={()=>{
+                                    this.setState({
+                                        leftWhiteSpace: tabWidth,
+                                        firstFont:'normal',
+                                        secondFont:'bold',
+                                        thirdFont:'normal',
+                                        forthFont:'normal',
+                                        fifthFont:'normal'
+                                    })
+                                }}
+                            >
+                                待付款
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                width:tabWidth,
+                                height:20,
+                                justifyContent:'center',
+                                alignItems:'center',
+
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize:14,
+                                    fontWeight:this.state.thirdFont
+                                }}
+
+                                onPress={()=>{
+                                    this.setState({
+                                        leftWhiteSpace: 2 * tabWidth,
+                                        firstFont:'normal',
+                                        secondFont:'normal',
+                                        thirdFont:'bold',
+                                        forthFont:'normal',
+                                        fifthFont:'normal'
+                                    })
+                                }}
+                            >
+                                处理中
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                width:tabWidth,
+                                height:20,
+                                justifyContent:'center',
+                                alignItems:'center'
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize:14,
+                                    fontWeight:this.state.forthFont
+                                }}
+
+                                onPress={()=>{
+                                    this.setState({
+                                        leftWhiteSpace: 3 * tabWidth,
+                                        firstFont:'normal',
+                                        secondFont:'normal',
+                                        thirdFont:'normal',
+                                        forthFont:'bold',
+                                        fifthFont:'normal'
+                                    })
+                                }}
+                            >
+                                待使用
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                width:tabWidth,
+                                height:20,
+                                justifyContent:'center',
+                                alignItems:'center'
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize:14,
+                                    fontWeight:this.state.fifthFont
+                                }}
+
+                                onPress={()=>{
+                                    this.setState({
+                                        leftWhiteSpace: 4 * tabWidth,
+                                        firstFont:'normal',
+                                        secondFont:'normal',
+                                        thirdFont:'normal',
+                                        forthFont:'normal',
+                                        fifthFont:'bold'
+                                    })
+                                }}
+                            >
+                                已发货
+                            </Text>
+                        </View>
+                    </View>
+                    <View
+                        style={{
+                            width: allWidth,
+                            height:10,
+
+                        }}
+                    >
+                        <View
+                            style={{
+                                width:tabWidth,
+                                alignItems:'center',
+                                marginLeft:this.state.leftWhiteSpace
+                            }}
+                        >
+                            <View
+                                style={{
+                                    width:tabWidth*0.8,
+                                    height:3,
+                                    marginTop: 7,
+                                    backgroundColor:'#55acee'
+                                }}
+                            >
+                            </View>
+                        </View>
+                    </View>
+
+                </View>
+                <ScrollView>
+                    <View
+                        style={{
+                            flex:1,
+                            justifyContent:'flex-start',
+                            alignItems:'center'
+                        }}
+                    >
+                        <OrderCard/>
+                        <OrderCard/>
+                        <OrderCard/>
+                        <OrderCard/>
+                        <OrderCard/>
+                        <OrderCard/>
+
+                    </View>
+                </ScrollView>
             </View>
-
 
         );
     }
