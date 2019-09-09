@@ -1,11 +1,11 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {View, Text, Button, Image, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
-import ShopCard from '../../../components/ShopCard/ShopCard';
-import ActCard from '../../../components/ActCard/ActCard';
+import ShopCard from '../../components/ShopCard/ShopCard';
+import ActCard from '../../components/ActCard/ActCard';
 import {BoxShadow} from 'react-native-shadow';
-import {createAppContainer, createStackNavigator} from 'react-navigation';
-import SearchPage from '../../SearchPage/SearchPage';
+
+
 
 
 const {allWidth, allHeight} = Dimensions.get('window');
@@ -53,7 +53,7 @@ export default class HomeFirstPage extends React.Component{
                                 width:330,
                                 height:110
                             }}
-                            source={require('../../../images/Banner.jpg')}
+                            source={require('../../images/Banner.jpg')}
                         />
                     </View>
 
@@ -93,7 +93,13 @@ export default class HomeFirstPage extends React.Component{
                             marginTop: 22
 
                         }}>
-                            <ActCard/>
+                            <TouchableOpacity
+                                onPress={()=>{
+                                    this.props.navigation.navigate('CommodityDetails')
+                                }}
+                            >
+                                <ActCard/>
+                            </TouchableOpacity>
                             <ActCard/>
                         </View>
                     </View>

@@ -1,12 +1,15 @@
 import React from 'react';
 import {View, Text, Button, Image} from 'react-native';
-import {createBottomTabNavigator, createAppContainer} from 'react-navigation';
+import {createBottomTabNavigator, createAppContainer, createStackNavigator} from 'react-navigation';
 
-import HomeFirstPage from './HomeContainer/HomeFirstPage/HomeFirstPage';
+import HomeFirstPage from './HomeFirstPage/HomeFirstPage';
 import HomeSecond from './HomeSecondPage/HomeSecondPage';
-import HomeMyOrder from './HomeMyOrder/HomeMyOrder';
-import HomeMyInfo from './HomeMyInfo/HomeMyInfo';
-import HomeContainer from './HomeContainer/HomeContainer';
+import ConfirmOrder from './HomeMyOrder/ConfirmOrder/ConfirmOrder';
+import SearchPage from './SearchPage/SearchPage';
+import SearchResult from './SearchResult/SearchResult';
+import MyPage from './HomeMyInfo/MyPage/MyPage';
+import OrderList from './HomeMyOrder/OrderList/OrderList';
+import CommodityDetails from './CommodityDetails';
 
 
 /*
@@ -17,10 +20,10 @@ import HomeContainer from './HomeContainer/HomeContainer';
  */
 
 const TabNavigator = createBottomTabNavigator({
-    HomeFirst: HomeContainer,
+    HomeFirst: HomeFirstPage,
     HomeSecond: HomeSecond,
-    HomeMyOrder: HomeMyOrder,
-    HomeMyInfo: HomeMyInfo
+    HomeMyOrder: OrderList,
+    HomeMyInfo: MyPage
 },{//BottomTavNavtigtorConfig
     defaultNavigationOptions: ({ navigation }) => ({ //用于屏幕的默认导航选项
         tabBarIcon: ({ focused, tintColor }) =>   //设置图标
@@ -32,11 +35,6 @@ const TabNavigator = createBottomTabNavigator({
         inactiveTintColor: '#979797'  //非活动选项卡的标签和图标颜色。 未选中时颜色
     },
 });
-
-
-
-const AppContainer = createAppContainer(TabNavigator);
-
 
 const getTabBarIcon = (navigation, focused, tintColor) => {  //设置图标默认状态
     const {routeName} = navigation.state;
@@ -66,6 +64,32 @@ const getTabBarIcon = (navigation, focused, tintColor) => {  //设置图标默�
                       source={focused ? require('../images/我的-选中.png') : require('../images/我的.png')}/>  //返回选中与未选中不同状态时，图标的样式，颜色
     }
 };
+
+
+
+const DetailsStack = createStackNavigator({
+    ConfirmOrder: ConfirmOrder,
+    SearchPage: SearchPage,
+    SearchResult: SearchResult,
+    CommodityDetails: CommodityDetails
+},{
+    defaultNavigationOptions:{
+        header:null
+    }
+});
+
+const FormalPagesStack = createStackNavigator({
+    TabNavigator: TabNavigator,
+   DetailsStack: DetailsStack
+},{
+    defaultNavigationOptions:{
+        header:null
+    }
+});
+
+
+const AppContainer = createAppContainer(FormalPagesStack);
+
 
 export default class HomePage extends React.Component{
     constructor(props){

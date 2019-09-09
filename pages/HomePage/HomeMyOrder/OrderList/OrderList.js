@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Button, Text, Image, Dimensions, ScrollView} from 'react-native';
+import {View, Button, Text, Image, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import BoxShadow from 'react-native-shadow/lib/BoxShadow';
 import OrderCard from '../../../components/OrderCard/OrderCard';
 
@@ -8,6 +8,11 @@ const allWidth = Dimensions.get('window').width;
 const tabWidth = Dimensions.get('window').width/5;
 
 export default class OrderList extends React.Component{
+
+    toOrderDetails=()=>{
+      this.props.navigation.navigate('ConfirmOrder');
+    };
+
 
     constructor(props) {
         super(props);
@@ -291,6 +296,7 @@ export default class OrderList extends React.Component{
                     </View>
 
                 </View>
+
                 <ScrollView>
                     <View
                         style={{
@@ -299,7 +305,15 @@ export default class OrderList extends React.Component{
                             alignItems:'center'
                         }}
                     >
-                        <OrderCard/>
+                        <TouchableOpacity
+                            onPress={()=>{
+                                this.props.navigation.navigate('ConfirmOrder',{
+                                    orderId:'5'
+                                });
+                            }}
+                        >
+                            <OrderCard/>
+                        </TouchableOpacity>
                         <OrderCard/>
                         <OrderCard/>
                         <OrderCard/>
