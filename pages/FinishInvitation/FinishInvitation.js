@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Button, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Button, Alert, Text, StyleSheet, TextInput} from 'react-native';
 import MyTextInput from '../components/MyTextInput/MyTextInput';
 import {TouchableOpacity} from 'react-native';
+import global from '../Global'
 
 
 export default class FinishInvitation extends React.Component {
@@ -34,7 +35,7 @@ export default class FinishInvitation extends React.Component {
                 <View style={styles.topPanel}>
                     <Text style={styles.topButton}
                           onPress={()=>{
-                              this.props.navigation.navigate('FinishResume');
+                              this.props.navigation.navigate('HomePage');
                               // this.props.navigation.navigate('TestPage');
                           }}
                     >跳过</Text>
@@ -70,11 +71,36 @@ export default class FinishInvitation extends React.Component {
                 </View>
 
                 <View style={styles.buttonPanel}>
-                    <View style={styles.confirmButton}>
-                        <Text style={styles.buttonText}>
-                            提交
-                        </Text>
-                    </View>
+                    <TouchableOpacity
+                        onPress={()=>{
+                            let _this = this;
+                            fetch(global.baseUrl+'/user/activation',{
+                                method:'post',
+                                credentials: 'include',
+                                mode:'cors',
+                                headers:{
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer '+global.token,
+                                },
+                                body:JSON.stringify({
+                                    key: this.state.text
+                                })
+                            }).then((response)=>response.json())
+                                .then((responseJson)=>{
+                                    console.log('???');
+                                    Alert.alert('填写成功！');
+                                    _this.props.navigation.navigate('FinishResume');
+                                }).catch((error)=>{
+                                console.log(error);
+                            })
+                        }}
+                    >
+                        <View style={styles.confirmButton}>
+                            <Text style={styles.buttonText}>
+                                提交
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </View>
         );

@@ -31,6 +31,7 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {Provider} from '@ant-design/react-native';
 
 
 
@@ -46,7 +47,21 @@ const AppNavigator = createStackNavigator({
       initialRouteName:'First'
     });
 
-export default createAppContainer(AppNavigator);
+
+const AppContainer = createAppContainer(AppNavigator);
+
+export default class App extends React.Component{
+
+
+  render(){
+    return(
+        <Provider>
+          <AppContainer/>
+        </Provider>
+    )
+  }
+
+}
 
 
 

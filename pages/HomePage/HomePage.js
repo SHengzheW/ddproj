@@ -10,6 +10,7 @@ import SearchResult from './SearchResult/SearchResult';
 import MyPage from './HomeMyInfo/MyPage/MyPage';
 import OrderList from './HomeMyOrder/OrderList/OrderList';
 import CommodityDetails from './CommodityDetails';
+import OrderDetails from './HomeMyOrder/OrderDetails/OrderDetails';
 
 
 /*
@@ -68,27 +69,29 @@ const getTabBarIcon = (navigation, focused, tintColor) => {  //设置图标默�
 
 
 const DetailsStack = createStackNavigator({
+    TabNavigator: TabNavigator,
     ConfirmOrder: ConfirmOrder,
     SearchPage: SearchPage,
     SearchResult: SearchResult,
-    CommodityDetails: CommodityDetails
+    CommodityDetails: CommodityDetails,
+    OrderDetails: OrderDetails
 },{
     defaultNavigationOptions:{
         header:null
     }
 });
 
-const FormalPagesStack = createStackNavigator({
-    TabNavigator: TabNavigator,
-   DetailsStack: DetailsStack
-},{
-    defaultNavigationOptions:{
-        header:null
-    }
-});
+// const FormalPagesStack = createStackNavigator({
+//     TabNavigator: TabNavigator,
+//     DetailsStack: DetailsStack
+// },{
+//     defaultNavigationOptions:{
+//         header:null
+//     }
+// });
 
 
-const AppContainer = createAppContainer(FormalPagesStack);
+const AppContainer = createAppContainer(DetailsStack);
 
 
 export default class HomePage extends React.Component{

@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Dimensions, StyleSheet, ScrollView, Image, TouchableOpacity} from 'react-native';
-
+import {Provider, Modal} from '@ant-design/react-native';
 
 const allWidth = Dimensions.get('window').width;
 
@@ -14,9 +14,10 @@ export default class ConfirmOrder extends React.Component{
 
 
         this.state={
-           orderId: this.props.navigation.getParam('orderId'),
-           price:'14.90',
-           num:'1'
+            orderId: this.props.navigation.getParam('orderId'),
+            price:'14.90',
+            num:'1',
+            visible:false,
         }
 
     }
@@ -26,6 +27,7 @@ export default class ConfirmOrder extends React.Component{
 
 
         return(
+            <Provider>
             <View
                 style={{
                     flex:1,
@@ -34,6 +36,22 @@ export default class ConfirmOrder extends React.Component{
                     backgroundColor:'#f7f7f7'
                 }}
             >
+                <Modal
+                    transparent
+                    maskClosable
+                    visible={this.state.visible}
+                    closable
+                    onClose={()=>{
+                        this.setState({
+                            visible: false,
+                        })
+                    }}
+                    style={{
+                        width: 280,
+                        height: 200
+                    }}
+                    >
+                </Modal>
                 <View
                     style={styles.topBar}
                 >
@@ -43,7 +61,7 @@ export default class ConfirmOrder extends React.Component{
                     >
                         <TouchableOpacity
                             onPress={()=>{
-                                this.props.navigation.navigate('OrderList');
+                                this.props.navigation.navigate('TabNavigator');
                             }}
                         >
                             <View
@@ -429,6 +447,7 @@ export default class ConfirmOrder extends React.Component{
 
                 </View>
             </View>
+            </Provider>
         );
     }
 

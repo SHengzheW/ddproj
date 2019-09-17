@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Button, Text, StyleSheet,TouchableOpacity} from 'react-native';
+import global from '../Global';
 
 
 
@@ -33,7 +34,26 @@ export default class FirstPage extends React.Component{
                 </View>
                 <View style={styles.buttonPanel} >
                     <TouchableOpacity onPress={()=>{
-                        this.props.navigation.navigate('FinishInvitation');
+
+                        let _this = this;
+
+                        fetch(global.baseUrl+'/user/login',{
+                          method:'post',
+                          headers:{
+                              'Content-Type' : 'application/json',
+
+                          },
+                          body:JSON.stringify({
+                              channel: 0,
+                              uid:'ss5hane1'
+                        })
+                        }).then((response)=>response.json())
+                            .then((responseJSON)=>{
+                                console.log(responseJSON);
+                                global.token = responseJSON.data.token;
+                                _this.props.navigation.navigate('FinishInvitation');
+                            });
+                        // this.props.navigation.navigate('FinishInvitation');
                     }}>
                         <View style={styles.loginButton}>
                             <Text style={styles.buttonText}>微信登录</Text>
@@ -41,6 +61,21 @@ export default class FirstPage extends React.Component{
                     </TouchableOpacity>
                     <View style={styles.loginButtonA}>
                         <Text style={styles.buttonTextA}>支付宝登录</Text>
+                    </View>
+                    <View
+                        style={{
+                            width: 280,
+                            height: 50,
+                            justifyContent:'center',
+                            alignItems:'center'
+                        }}
+                    >
+                        <Text
+                            style={{
+                                fontSize: 13,
+                                color:'#666'
+                            }}
+                        >商家登录</Text>
                     </View>
                 </View>
             </View>

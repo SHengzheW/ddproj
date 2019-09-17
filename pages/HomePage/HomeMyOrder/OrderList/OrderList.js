@@ -314,7 +314,13 @@ export default class OrderList extends React.Component{
                         >
                             <OrderCard/>
                         </TouchableOpacity>
-                        <OrderCard/>
+                        <TouchableOpacity
+                            onPress={()=>{
+                                this.props.navigation.navigate('OrderDetails')
+                            }}
+                        >
+                            <OrderCard/>
+                        </TouchableOpacity>
                         <OrderCard/>
                         <OrderCard/>
                         <OrderCard/>

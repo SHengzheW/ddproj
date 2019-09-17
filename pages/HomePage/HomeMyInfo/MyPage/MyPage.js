@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
 import {View, Button, Image, Text} from 'react-native';
 import BoxShadow from 'react-native-shadow/lib/BoxShadow';
 import UnusedOrderCard from '../../../components/UnusedOrderCard/UnusedOrderCard';
@@ -315,7 +315,13 @@ export default class MyPage extends React.Component{
 
                         }}
                     >
-                        <UnusedOrderCard/>
+                        <TouchableOpacity
+                            onPress={()=>{
+                                this.props.navigation.navigate('OrderDetails')
+                            }}
+                        >
+                            <UnusedOrderCard/>
+                        </TouchableOpacity>
 
                         {/*没有订单时显示的界面*/}
                         <View

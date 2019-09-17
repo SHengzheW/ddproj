@@ -4,6 +4,7 @@ import {View, Text, Button, Image, Dimensions, ScrollView, TouchableOpacity} fro
 import ShopCard from '../../components/ShopCard/ShopCard';
 import ActCard from '../../components/ActCard/ActCard';
 import {BoxShadow} from 'react-native-shadow';
+import global from '../../Global';
 
 
 
@@ -20,6 +21,21 @@ export default class HomeFirstPage extends React.Component{
     static navigationOptions={
         header:null
     };
+
+
+    componentDidMount(): void {
+
+        fetch(global.baseUrl+'/summary/food',{
+            method : 'GET',
+            headers:{
+                Authorization : 'Bearer '+global.token
+            },
+        }).then((response)=>response.json())
+            .then((res)=>{
+                console.log(res.data);
+            })
+
+    }
 
 
     render(){
