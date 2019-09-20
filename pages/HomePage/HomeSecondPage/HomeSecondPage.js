@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, Button, Dimensions, Image, StyleSheet} from 'react-native';
 import SchoolActCard from '../../components/SchoolActCard/SchoolActCard';
 import ActCard from '../../components/ActCard/ActCard';
+import global from '../../Global';
 
 
 const {allWidth, allHeight} = Dimensions.get('window');
@@ -10,10 +11,32 @@ const {allWidth, allHeight} = Dimensions.get('window');
 export default class HomeSecondPage extends React.Component{
     constructor(props){
         super(props);
+
+        this.state={
+            schoolActList : []
+        }
+    }
+
+
+    componentDidMount(): void {
+        fetch(global.baseUrl+'/summary/activity',{
+            method : 'GET',
+            headers:{
+                Authorization : 'Bearer '+global.token
+            },
+        }).then((response)=>response.json())
+            .then((res)=>{
+                console.log(res.data);
+            })
     }
 
 
     render(){
+
+
+
+
+
         return(
             <View style={{
                 width: allWidth,

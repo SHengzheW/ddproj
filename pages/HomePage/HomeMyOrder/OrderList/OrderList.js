@@ -1,11 +1,15 @@
 import React from 'react';
-import {View, Button, Text, Image, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
+import {View, Button, Text, Image, Dimensions, ScrollView, TouchableOpacity, Animated} from 'react-native';
 import BoxShadow from 'react-native-shadow/lib/BoxShadow';
 import OrderCard from '../../../components/OrderCard/OrderCard';
 
 const allWidth = Dimensions.get('window').width;
 
 const tabWidth = Dimensions.get('window').width/5;
+
+
+
+
 
 export default class OrderList extends React.Component{
 
@@ -18,7 +22,7 @@ export default class OrderList extends React.Component{
         super(props);
 
         this.state = {
-            leftWhiteSpace: 0,
+            leftWhiteSpace: new Animated.Value(0),
             firstFont:'bold',
             secondFont:'normal',
             thirdFont:'normal',
@@ -141,8 +145,14 @@ export default class OrderList extends React.Component{
                                 }}
 
                                 onPress={()=>{
+
+                                    Animated.timing(this.state.leftWhiteSpace,{
+                                        toValue : 0,
+                                        useNativeDriver: true
+                                    }).start();
+
                                     this.setState({
-                                        leftWhiteSpace: 0,
+                                        // leftWhiteSpace: 0,
                                         firstFont:'bold',
                                         secondFont:'normal',
                                         thirdFont:'normal',
@@ -170,8 +180,14 @@ export default class OrderList extends React.Component{
                                 }}
 
                                 onPress={()=>{
+
+                                    Animated.timing(this.state.leftWhiteSpace,{
+                                        toValue : tabWidth,
+                                        useNativeDriver: true
+                                    }).start();
+
                                     this.setState({
-                                        leftWhiteSpace: tabWidth,
+                                        // leftWhiteSpace: tabWidth,
                                         firstFont:'normal',
                                         secondFont:'bold',
                                         thirdFont:'normal',
@@ -199,8 +215,14 @@ export default class OrderList extends React.Component{
                                 }}
 
                                 onPress={()=>{
+
+                                    Animated.timing(this.state.leftWhiteSpace,{
+                                        toValue : 2 * tabWidth,
+                                        useNativeDriver: true
+                                    }).start();
+
                                     this.setState({
-                                        leftWhiteSpace: 2 * tabWidth,
+                                        // leftWhiteSpace: 2 * tabWidth,
                                         firstFont:'normal',
                                         secondFont:'normal',
                                         thirdFont:'bold',
@@ -227,8 +249,14 @@ export default class OrderList extends React.Component{
                                 }}
 
                                 onPress={()=>{
+
+                                    Animated.timing(this.state.leftWhiteSpace,{
+                                        toValue : 3 * tabWidth,
+                                        useNativeDriver: true
+                                    }).start();
+
                                     this.setState({
-                                        leftWhiteSpace: 3 * tabWidth,
+                                        // leftWhiteSpace: 3 * tabWidth,
                                         firstFont:'normal',
                                         secondFont:'normal',
                                         thirdFont:'normal',
@@ -255,8 +283,13 @@ export default class OrderList extends React.Component{
                                 }}
 
                                 onPress={()=>{
+
+                                    Animated.timing(this.state.leftWhiteSpace,{
+                                        toValue : 4 * tabWidth,
+                                        useNativeDriver: true
+                                    }).start();
+
                                     this.setState({
-                                        leftWhiteSpace: 4 * tabWidth,
                                         firstFont:'normal',
                                         secondFont:'normal',
                                         thirdFont:'normal',
@@ -269,6 +302,11 @@ export default class OrderList extends React.Component{
                             </Text>
                         </View>
                     </View>
+                    {
+                        /**
+                        小滑块
+                        */
+                    }
                     <View
                         style={{
                             width: allWidth,
@@ -276,7 +314,7 @@ export default class OrderList extends React.Component{
 
                         }}
                     >
-                        <View
+                        <Animated.View
                             style={{
                                 width:tabWidth,
                                 alignItems:'center',
@@ -292,7 +330,7 @@ export default class OrderList extends React.Component{
                                 }}
                             >
                             </View>
-                        </View>
+                        </Animated.View>
                     </View>
 
                 </View>

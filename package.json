@@ -15,6 +15,7 @@
     "react-native-reanimated": "^1.2.0",
     "react-native-shadow": "^1.2.2",
     "react-native-svg": "^9.7.1",
+    "react-native-transition": "^1.1.8",
     "react-native-wechat": "^1.9.10",
     "react-navigation": "^3.11.1"
   },
