@@ -14,16 +14,23 @@ import HomePage from './pages/HomePage/HomePage';
 import FinishInvitation from './pages/FinishInvitation/FinishInvitation';
 import TestPage from './pages/TestPage';
 import {Provider} from '@ant-design/react-native';
+import ShopLogin from './pages/ShopLogin/ShopLogin';
+import SeeResume from './pages/SeeResume/SeeResume';
+import ShopDetails from './pages/HomePage/ShopDetails/ShopDetails';
+import ShopClient from './pages/ShopClient/ShopClient';
 
 
 
 
 const AppNavigator = createStackNavigator({
-  First: FirstPage,
-  FinishResume: FinishResume,
-  FinishInvitation: FinishInvitation,
-  HomePage: HomePage,
-  TestPage: TestPage
+          First: FirstPage,
+          FinishResume: FinishResume,
+          FinishInvitation: FinishInvitation,
+          HomePage: HomePage,
+          TestPage: TestPage,
+          ShopLogin: ShopLogin,
+          SeeResume: SeeResume,
+          ShopClient: ShopClient
 },
     {
       initialRouteName:'First',

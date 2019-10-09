@@ -12,7 +12,7 @@ export default class ShopCard extends React.Component{
 
         this.state={
             imgUrl:require('../../images/厦饭.jpg'),
-            shopName:'厦饭 世茂双子塔店',
+            shopName:props.name,
             distance:'333'
         }
 

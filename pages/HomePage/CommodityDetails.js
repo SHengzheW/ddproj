@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Text, Image} from 'react-native';
+import {ImageBackground, Alert} from 'react-native';
 import SearchResult from './SearchResult/SearchResult';
 import ResultCard from '../components/ResultCard/ResultCard';
 import RecommendCard from '../components/RecommendCard/RecommendCard';
-
+import global from '../Global';
 
 const allWidth = Dimensions.get('window').width;
 
@@ -14,12 +15,200 @@ export default class CommodityDetails extends React.Component{
         super(props);
 
         this.state={
-            soldNumber: 242
+            soldNumber: 242,
+            id: this.props.navigation.state.params.id,
+            title:'',
+            soldNum:'',
+            service:[],
+            price:'',
+            shop:'',
+            foodList:[]
         }
 
     }
 
+    componentDidMount(): void {
+        let _this = this;
+        fetch(global.baseUrl+'/detail/food?id='+this.state.id,{
+            method:'get',
+            headers:{
+                Authorization: 'Bearer '+global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                console.log(res.data);
+                _this.setState({
+                    title:res.data.title,
+                    soldNum:res.data.soldNum,
+                    service:res.data.service.split(','),
+                    price:res.data.price,
+                    shop:res.data.shop
+
+
+                })
+            }).catch((err)=>{
+                console.log(err);
+        });
+
+
+        //为你推荐
+        fetch(global.baseUrl+'/summary/recommend/food/similar?id='+this.state.id,{
+            method:'get',
+            headers:{
+                Authorization: global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                console.log('推荐');
+                console.log(res);
+                _this.setState({
+                    foodList:res.data.foodList
+                })
+            }).catch((error)=>{
+                console.log(error);
+        })
+
+    }
+
     render(){
+
+        //推荐的商品
+        let recommendFoodListItems = [];
+        let foodList = this.state.foodList;
+        foodList.forEach((item) => {
+                recommendFoodListItems.push(
+                    <RecommendCard title={item.title} price={item.price} avater={item.avater} soldNum={item.soldNum}/>
+                )
+                    });
+
+        //为你推荐
+        let recommendItem = [];
+        if(this.state.foodList.length!==0){
+            recommendItem.push(
+                <View
+                    style={{
+                        width: allWidth,
+                        alignItems:'center'
+                    }}
+                >
+                    <View
+                        style={{
+                            width: allWidth*0.9,
+
+                        }}
+                    >
+                        <View
+                            style={{
+                                marginTop:14
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize:14,
+                                    fontWeight:'bold'
+                                }}
+                            >
+                                为你推荐
+                            </Text>
+
+                        </View>
+                        <View
+                            style={{
+                                marginTop: 4
+                            }}
+                        >
+                            {recommendFoodListItems}
+                        </View>
+                    </View>
+                </View>
+            )
+        }
+
+
+
+
+        //价格组件
+        let priceItem = [];
+        let orgPriceItem = [];
+        if(this.state.price.minPrice!==this.state.maxPrice){
+            priceItem.push(
+                <Text
+                    style={{
+                        fontSize: 18,
+                        fontWeight: 'bold'
+                    }}
+                >
+                    ￥{this.state.price.minPrice}-{this.state.price.maxPrice}
+                </Text>
+            );
+
+            orgPriceItem.push(
+                <Text
+                    style={{
+                        fontSize:14,
+                        textDecorationLine:'line-through'
+                    }}
+                >
+                    ￥{this.state.price.orgMinPrice}-{this.state.price.orgMaxPrice}
+                </Text>
+
+            )
+        }else{
+            priceItem.push(
+                <Text
+                    style={{
+                        fontSize: 18,
+                        fontWeight: 'bold'
+                    }}
+                >
+                    ￥{this.state.price.minPrice}
+                </Text>
+            );
+
+            orgPriceItem.push(
+                <Text
+                    style={{
+                        fontSize:14,
+                        textDecorationLine:'line-through'
+                    }}
+                >
+                    ￥{this.state.price.orgMinPrice}
+                </Text>
+            )
+
+        }
+
+        //提供的服务
+        let serviceItems = [];
+        let service = this.state.service;
+        service.forEach((item)=>{
+           serviceItems.push(
+               <View
+                   style={{
+                       flexDirection:'row',
+                       height: 14,
+                       justifyContent:'center'
+                   }}
+               >
+                   <Image
+                           source={require('../images/详情页勾选.png')}
+                           style={{
+                               width: 12,
+                               height: 12,
+                           }}
+                       />
+                   <Text
+                    style={{
+                        fontSize:11,
+                            color:'#333',
+                            marginLeft: 4
+                    }}
+                >
+                       {item}
+                    </Text>
+               </View>
+           );
+        });
 
 
         return(
@@ -31,17 +220,93 @@ export default class CommodityDetails extends React.Component{
                 }}
             >
                 {/*照片墙*/}
-                <View
+                <ImageBackground
+                    source={require('../images/厦饭.jpg')}
                     style={{
                         width: allWidth,
                         height: 250,
-                        backgroundColor:'#000'
+
                     }}
                 >
+                    <View
+                        style={{
+                            width: allWidth,
+                            height:24,
+                            flexDirection:'row',
+                            marginTop:45,
+                        }}
+                    >
+                        <View
+                            style={{
+                                width: 40,
+                                height:24,
+                                paddingLeft:15
+                            }}
+                        >
+                            <TouchableOpacity
+                                onPress={()=>{
+                                    this.props.navigation.goBack();
+                                }}
+                            >
+                            <Image
+                                source={require('../images/方向-左.png')}
+                                style={{
+                                    width:24,
+                                    height:24
+                                }}
 
-                </View>
+                            />
+                            </TouchableOpacity>
+                        </View>
+                        <View
+                            style={{
+                                width: allWidth-50,
+                                height: 24,
+                                alignItems:'flex-end',
+                                justifyContent:'flex-end',
+                                flexDirection:'row'
+                            }}
+                        >
+                            <TouchableOpacity
+                                onPress={()=>{
+                                    console.log('开始收藏')
+                                    fetch(global.baseUrl+'/user/star',{
+                                        method:'put',
+                                        headers:{
+                                            Authorization: global.token,
+                                            'Content-Type':'application/json'
+                                        }
+                                    }).then((response)=>response.json())
+                                        .then((res)=>{
+                                            console.log(res);
+                                        })
+                                }}
+                            >
+                            <Image
+                                source={require('../images/收藏.png')}
+                                style={{
+                                    width:24,
+                                    height:24
+                                }}
+                            />
+                            </TouchableOpacity>
 
-                {/*商品介绍*/}
+                            {/*<Image*/}
+                                {/*source={require('../images/方向-左.png')}*/}
+                                {/*onPress={()=>{*/}
+                                    {/*this.props.navigation.goBack();*/}
+                                {/*}}*/}
+                            {/*/>*/}
+
+                        </View>
+
+                    </View>
+
+                </ImageBackground>
+
+                {/**
+                 商品介绍
+                 */}
                 <View
                     style={{
                         width: allWidth,
@@ -63,7 +328,7 @@ export default class CommodityDetails extends React.Component{
                                 fontWeight: 'bold',
                             }}
                         >
-                            乐诺华冰淇淋来啦！厦大98周年庆，学姐回馈母校的超大福利
+                            {this.state.title}
                         </Text>
                     </View>
                     <View
@@ -82,31 +347,8 @@ export default class CommodityDetails extends React.Component{
 
                             }}
                         >
-                            <View
-                                style={{
-                                    flexDirection:'row',
-                                    height: 14,
-                                    justifyContent:'center'
-                                }}
-                            >
-                                <Image
-                                    source={require('../images/详情页勾选.png')}
-                                    style={{
-                                        width: 12,
-                                        height: 12,
-                                    }}
-                                />
-                                <Text
-                                    style={{
-                                        fontSize:11,
-                                        color:'#333',
-                                        marginLeft: 4
-                                    }}
-                                >
-                                    仅限堂食
-                                </Text>
+                            {serviceItems}
 
-                            </View>
 
                         </View>
 
@@ -124,7 +366,7 @@ export default class CommodityDetails extends React.Component{
                                     color:'#333'
                                 }}
                             >
-                                销量{this.state.soldNumber}份
+                                销量{this.state.soldNum}份
                             </Text>
 
                         </View>
@@ -134,7 +376,9 @@ export default class CommodityDetails extends React.Component{
 
                 </View>
 
-                {/*灰色空白*/}
+                {/**
+                 灰色空白
+                 */}
                 <View
                     style={{
                         width: allWidth,
@@ -145,7 +389,9 @@ export default class CommodityDetails extends React.Component{
 
                 </View>
 
-                {/*下方富文本介绍信息*/}
+                {/**
+                 下方富文本介绍信息
+                 */}
                 <View
                     style={{
                         width: allWidth,
@@ -184,7 +430,9 @@ export default class CommodityDetails extends React.Component{
                     }}
                 />
 
-                {/*商家信息介绍*/}
+                {/**
+                 商家信息介绍
+                 */}
                 <View
                     style={{
                         width: allWidth,
@@ -250,7 +498,7 @@ export default class CommodityDetails extends React.Component{
                                             color:'#222'
                                         }}
                                     >
-                                        LE NUOVAl乐诺华（世贸双子塔店）
+                                        {this.state.shop.title}
                                     </Text>
                                     <Text
                                         style={{
@@ -259,7 +507,7 @@ export default class CommodityDetails extends React.Component{
                                             marginTop: 18
                                         }}
                                     >
-                                        厦大世贸EMALL三楼317
+                                        {this.state.shop.address}
                                     </Text>
                                     <Text
                                         style={{
@@ -268,7 +516,7 @@ export default class CommodityDetails extends React.Component{
                                             marginTop: 4
                                         }}
                                     >
-                                        营业时间：10:00 - 22:00
+                                        营业时间：{this.state.shop.businessHours}
                                     </Text>
                                 </View>
 
@@ -328,42 +576,7 @@ export default class CommodityDetails extends React.Component{
                 </View>
 
                 {/*为你推荐*/}
-                <View
-                    style={{
-                        width: allWidth,
-                        alignItems:'center'
-                    }}
-                >
-                    <View
-                        style={{
-                            width: allWidth*0.9,
-
-                        }}
-                    >
-                        <View
-                            style={{
-                                marginTop:14
-                            }}
-                        >
-                            <Text
-                                style={{
-                                    fontSize:14,
-                                    fontWeight:'bold'
-                                }}
-                            >
-                                为你推荐
-                            </Text>
-
-                        </View>
-                        <View
-                            style={{
-                                marginTop: 4
-                            }}
-                        >
-                            <RecommendCard/>
-                        </View>
-                    </View>
-                </View>
+                {recommendItem}
 
 
                 <View
@@ -385,30 +598,16 @@ export default class CommodityDetails extends React.Component{
                     >
                         <View
                             style={{
-                                width: 70,
+                                width: 200,
                                 alignItems:'flex-start'
                             }}
                         >
-                            <Text
-                                style={{
-                                    fontSize: 18,
-                                    fontWeight: 'bold'
-                                }}
-                            >
-                                ￥14.80
-                            </Text>
-                            <Text
-                                style={{
-                                    fontSize:14,
-                                    textDecorationLine:'line-through'
-                                }}
-                            >
-                                ￥18.00
-                            </Text>
+                            {priceItem}
+                            {orgPriceItem}
                         </View>
                         <View
                             style={{
-                                width: allWidth*0.9-70,
+                                width: allWidth*0.9-200,
                                 alignItems:'flex-end'
                             }}
                         >

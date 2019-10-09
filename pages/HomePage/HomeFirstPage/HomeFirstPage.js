@@ -16,6 +16,11 @@ const {allWidth, allHeight} = Dimensions.get('window');
 export default class HomeFirstPage extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            recommendShopList : [],
+            recommendFoodList : [],
+            recommendActList : []
+        }
     }
 
     static navigationOptions={
@@ -25,7 +30,23 @@ export default class HomeFirstPage extends React.Component{
 
     componentDidMount(): void {
 
-        fetch(global.baseUrl+'/summary/food',{
+        let _this = this;
+
+        //获取顶部banner的相关信息
+        fetch(global.baseUrl+'/banner/home',{
+            method:'GET',
+            headers:{
+                Authorization : 'Bearer '+global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+
+            });
+
+
+
+        //获取热门推荐的美食
+        fetch(global.baseUrl+'/summary/all',{
             method : 'GET',
             headers:{
                 Authorization : 'Bearer '+global.token
@@ -33,12 +54,58 @@ export default class HomeFirstPage extends React.Component{
         }).then((response)=>response.json())
             .then((res)=>{
                 console.log(res.data);
-            })
+                _this.setState({
+                    recommendFoodList : res.data.foodList,
+                    recommendActList : res.data.activityList
+                })
+            });
+
+
+        //获取今天吃什么
+        fetch(global.baseUrl+'/summary/recommend/shop',{
+            method:'GET',
+            headers:{
+                Authorization : 'Bearer '+global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                _this.setState({
+                    recommendShopList: res.data.recommendShopList
+                });
+            }).catch((error)=>{
+                console.log(error)
+        })
 
     }
 
 
     render(){
+
+        //今天吃什么
+        let todayEatItems = [];
+        let recommendShopList = this.state.recommendShopList;
+        recommendShopList.forEach((item)=>{
+           todayEatItems.push(
+               <ShopCard avater={item.shop.avater} name={item.shop.title} key={item.shop.id}/>
+           )
+        });
+
+
+        //热门推荐
+        let recommendEatItems = [];
+        let recommendEat = this.state.recommendFoodList;
+        recommendEat.forEach((item)=>{
+           recommendEatItems.push(
+               <TouchableOpacity
+                   onPress={()=>{
+                       this.props.navigation.navigate('CommodityDetails',{id:item.id})
+                   }}
+                   key={item.id}
+               >
+                   <ActCard  avater={item.avater} title={item.title} soldNum={item.soldNum} shop={item.shop} price={item.price} />
+               </TouchableOpacity>
+           )
+        });
 
 
         return(
@@ -51,7 +118,7 @@ export default class HomeFirstPage extends React.Component{
                 }}>
                     <TouchableOpacity
                         onPress={()=>{
-                            this.props.navigation.navigate('HomeSearchPage');
+                            this.props.navigation.navigate('SearchPage');
                         }}
                     >
                         <View style={styles.searchPanel}>
@@ -81,8 +148,7 @@ export default class HomeFirstPage extends React.Component{
                     <View
                         style={styles.shopPanel}
                     >
-                        <ShopCard/>
-                        <ShopCard/>
+                        {todayEatItems}
                     </View>
 
                     <View
@@ -109,14 +175,15 @@ export default class HomeFirstPage extends React.Component{
                             marginTop: 22
 
                         }}>
-                            <TouchableOpacity
-                                onPress={()=>{
-                                    this.props.navigation.navigate('CommodityDetails')
-                                }}
-                            >
-                                <ActCard/>
-                            </TouchableOpacity>
-                            <ActCard/>
+                            {recommendEatItems}
+                            {/*<TouchableOpacity*/}
+                                {/*onPress={()=>{*/}
+                                    {/*this.props.navigation.navigate('CommodityDetails')*/}
+                                {/*}}*/}
+                            {/*>*/}
+                                {/*<ActCard/>*/}
+                            {/*</TouchableOpacity>*/}
+                            {/*<ActCard/>*/}
                         </View>
                     </View>
 

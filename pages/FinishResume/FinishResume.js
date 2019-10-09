@@ -689,7 +689,7 @@ export default class FinishResume extends React.Component{
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={()=>{
-                                this.props.navigation.navigate('HomePage');
+                                this.props.navigation.navigate('SeeResume');
                             }}
                         >
                             <View style={styles.briefButton}>

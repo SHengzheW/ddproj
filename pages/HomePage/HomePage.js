@@ -11,6 +11,7 @@ import MyPage from './HomeMyInfo/MyPage/MyPage';
 import OrderList from './HomeMyOrder/OrderList/OrderList';
 import CommodityDetails from './CommodityDetails';
 import OrderDetails from './HomeMyOrder/OrderDetails/OrderDetails';
+import ShopDetails from './ShopDetails/ShopDetails';
 
 
 /**
@@ -75,7 +76,8 @@ const DetailsStack = createStackNavigator({
     SearchPage: SearchPage,
     SearchResult: SearchResult,
     CommodityDetails: CommodityDetails,
-    OrderDetails: OrderDetails
+    OrderDetails: OrderDetails,
+    ShopDetails: ShopDetails
 },{
     defaultNavigationOptions:{
         header:null

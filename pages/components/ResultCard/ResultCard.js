@@ -10,13 +10,77 @@ export default class ResultCard extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            imgUrl:require('../../images/酸菜鱼.jpg')
+            imgUrl:require('../../images/酸菜鱼.jpg'),
+            avater:props.avater,
+            title:props.title,
+            price:props.price,
+            soldNum:props.soldNum
         }
 
     }
 
 
     render(){
+
+
+        let priceItem = [];
+        if(this.state.price.minPrice){
+            priceItem.push(
+                <Text
+                    style={{
+                        color:'#d65827',
+                        fontWeight: 'bold',
+                        marginTop:5
+                    }}
+                >
+                    ￥{this.state.price.minPrice} - {this.state.price.maxPrice}
+                </Text>
+            )
+        }else{
+            priceItem.push(
+                <Text
+                    style={{
+                        color:'#d65827',
+                        fontWeight: 'bold',
+                        marginTop:5
+                    }}
+                >
+                    ￥{this.state.price.maxPrice}
+                </Text>
+            )
+        }
+
+
+        let orgPriceItem = [];
+        if(this.state.price.orgMinPrice){
+            orgPriceItem.push(
+                <Text
+                    style={{
+                        marginTop:5,
+                        color:'#777',
+                        fontSize: 12,
+                        textDecorationLine: 'line-through'
+                    }}
+                >
+                    ￥{this.state.price.orgMinPrice} - {this.state.price.orgMaxPrice}
+                </Text>
+            )
+
+        }else{
+            orgPriceItem.push(
+                <Text
+                    style={{
+                        marginTop:5,
+                        color:'#777',
+                        fontSize: 12,
+                        textDecorationLine: 'line-through'
+                    }}
+                >
+                    ￥{this.state.price.orgMaxPrice}
+                </Text>
+            )
+
+        }
 
         return(
             <View
@@ -42,19 +106,20 @@ export default class ResultCard extends React.Component{
                                     style={{
                                         marginTop: 5,
                                         marginLeft: 10,
-                                        paddingLeft:14,
-                                        paddingRight:14,
+                                        paddingLeft:10,
+                                        paddingRight:10,
                                         justifyContent:'center',
-                                        backgroundColor:'#ffbf2c',
+                                        backgroundColor:'white',
                                         opacity:0.96,
-                                        borderRadius:12,
-                                        width:57,
-                                        height:24
+                                        borderRadius:2,
+                                        width:46,
+                                        height:17
                                     }}
                                 >
                                     <Text
                                         style={{
-                                            color:'white'
+                                            color:'#333',
+                                            fontSize: 10
                                         }}
                                     >
                                         美食
@@ -68,29 +133,15 @@ export default class ResultCard extends React.Component{
                         >
                             <Text
                                 style={{
-                                    color:'#333'
+                                    color:'#333',
+                                    height:47,
+                                    fontSize: 15
                                 }}
                             >
-                                超值单人餐38元吃！双人餐98元吃！3-4人餐15…
+                                {this.state.title}
                             </Text>
-                            <Text
-                                style={{
-                                    color:'#111',
-                                    fontWeight: 'bold',
-                                    marginTop:5
-                                }}
-                            >
-                                ￥138
-                            </Text>
-                            <Text
-                                style={{
-                                    marginTop:5,
-                                    color:'#999',
-                                    fontSize: 12
-                                }}
-                            >
-                                原价￥148
-                            </Text>
+                            {priceItem}
+                            {orgPriceItem}
                             <Text
                                 style={{
                                     marginTop:9,
@@ -98,7 +149,7 @@ export default class ResultCard extends React.Component{
                                     fontSize: 12
                                 }}
                             >
-                                热销199份
+                                热销{this.state.soldNum}份
                             </Text>
 
 
@@ -137,6 +188,7 @@ const styles = StyleSheet.create({
     rightPanel:{
         marginLeft:10,
         width:0.4*allWidth,
+
 
     }
 

@@ -38,7 +38,8 @@ export default class TopResultCard extends React.Component{
             imgUrl:require('../../images/厦饭.jpg'),
             shopName:"厦饭酸菜鱼世贸双子塔店",
             distance:"333",
-            isLast:this.props.isLast
+            isLast:this.props.isLast,
+            shop : props.shop
         }
     }
 
@@ -80,7 +81,7 @@ export default class TopResultCard extends React.Component{
                                 color:'#333'
                             }}
                           >
-                              {this.state.shopName}
+                              {this.state.shop.title}
                           </Text>
                           <View
                             style={{

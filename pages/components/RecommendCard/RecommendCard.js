@@ -10,7 +10,11 @@ export default class RecommendCard extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            imgUrl:require('../../images/酸菜鱼.jpg')
+            imgUrl:require('../../images/酸菜鱼.jpg'),
+            title:props.title,
+            price:props.price,
+            soldNum:props.soldNum,
+            avater:props.avater
         }
 
     }
@@ -45,7 +49,7 @@ export default class RecommendCard extends React.Component{
                                         paddingLeft:14,
                                         paddingRight:14,
                                         justifyContent:'center',
-                                        backgroundColor:'#ffbf2c',
+                                        backgroundColor:'#777',
                                         opacity:0.96,
                                         borderRadius:12,
                                         width:57,
@@ -54,7 +58,7 @@ export default class RecommendCard extends React.Component{
                                 >
                                     <Text
                                         style={{
-                                            color:'white'
+                                            color:'#333'
                                         }}
                                     >
                                         美食
@@ -71,7 +75,7 @@ export default class RecommendCard extends React.Component{
                                     color:'#333'
                                 }}
                             >
-                                超值单人餐38元吃！双人餐98元吃！3-4人餐15…
+                                {this.state.title}
                             </Text>
                             <Text
                                 style={{
@@ -89,7 +93,7 @@ export default class RecommendCard extends React.Component{
                                     fontSize: 12
                                 }}
                             >
-                                原价￥148
+                                原价￥{this.state.price.minPrice}
                             </Text>
                             <Text
                                 style={{
@@ -98,7 +102,7 @@ export default class RecommendCard extends React.Component{
                                     fontSize: 12
                                 }}
                             >
-                                热销199份
+                                热销{this.state.soldNum}份
                             </Text>
 
 

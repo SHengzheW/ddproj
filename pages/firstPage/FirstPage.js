@@ -75,6 +75,10 @@ export default class FirstPage extends React.Component{
                                 fontSize: 13,
                                 color:'#666'
                             }}
+
+                            onPress={()=>{
+                                this.props.navigation.navigate('ShopLogin');
+                            }}
                         >商家登录</Text>
                     </View>
                 </View>

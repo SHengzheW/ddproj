@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Button, Text, Image, Dimensions, ScrollView, TouchableOpacity, Animated} from 'react-native';
 import BoxShadow from 'react-native-shadow/lib/BoxShadow';
 import OrderCard from '../../../components/OrderCard/OrderCard';
-
+import global from '../../../Global';
 const allWidth = Dimensions.get('window').width;
 
 const tabWidth = Dimensions.get('window').width/5;
@@ -29,6 +29,22 @@ export default class OrderList extends React.Component{
             forthFont:'normal',
             fifthFont:'normal'
         }
+    }
+
+
+    componentDidMount(): void {
+        let _this = this;
+        console.log(global.token);
+
+        fetch(global.baseUrl+'/order/me/all?status=-1',{
+            method:'get',
+            headers:{
+                Authorization:'Bearer '+global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                console.log(res.data);
+            })
     }
 
     static navigationOptions={
@@ -359,7 +375,13 @@ export default class OrderList extends React.Component{
                         >
                             <OrderCard/>
                         </TouchableOpacity>
-                        <OrderCard/>
+                        <TouchableOpacity
+                            onPress={()=>{
+                                this.props.navigation.navigate('ShopDetails')
+                            }}
+                        >
+                            <OrderCard/>
+                        </TouchableOpacity>
                         <OrderCard/>
                         <OrderCard/>
                         <OrderCard/>

@@ -3,6 +3,7 @@ import {StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
 import {View, Button, Image, Text} from 'react-native';
 import BoxShadow from 'react-native-shadow/lib/BoxShadow';
 import UnusedOrderCard from '../../../components/UnusedOrderCard/UnusedOrderCard';
+import global from '../../../Global';
 
 const allWidth = Dimensions.get('window').width;
 
@@ -12,9 +13,49 @@ export default class MyPage extends React.Component{
     constructor(props){
         super(props);
         this.state={
-
+            role:0,
+            stageName:'',
+            avater:'',
+            activityList:[],
+            newMessageStatus: false
         }
     }
+
+    componentDidMount(): void {
+        let _this=this;
+        fetch(global.baseUrl+'/user/identity',{
+            method:'get',
+            headers:{
+                Authorization:'Bearer '+global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                console.log(res);
+                _this.setState({
+                    role: res.data.role,
+                    stageName: res.data.stageName,
+                    avater: res.data.avater,
+                    activityList: res.data.activityList,
+                })
+            });
+
+        //查看有无未读消息
+
+        fetch(global.baseUrl+'/message/new',{
+            method:'get',
+            headers:{
+                Authorization: 'Bearer '+global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                _this.setState({
+                    newMessageStatus:res.data.status
+                })
+            }).catch((err)=>{
+                console.log(err);
+        })
+    }
+
 
     static navigationOptions = {
         header:null
@@ -33,6 +74,47 @@ export default class MyPage extends React.Component{
             y:0,
             style:{marginVertical:5}
         };
+
+
+        let roleItem = [];
+        if(this.state.role===0){
+            roleItem.push(
+                <Text
+                    style={{
+                        fontSize:9,
+                        color:'#76c5ff'
+                    }}
+
+                    key={1}
+                >
+                    未激活
+                </Text>
+            )
+        }else if(this.state.role===1){
+            roleItem.push(
+                <Text
+                    style={{
+                        fontSize:9,
+                        color:'#76c5ff'
+                    }}
+                    key={1}
+                >
+                    带审核
+                </Text>
+            )
+        }else{
+            roleItem.push(
+                <Text
+                    style={{
+                        fontSize:9,
+                        color:'#76c5ff'
+                    }}
+                    key={1}
+                >
+                    正式会员
+                </Text>
+            )
+        }
 
 
         return(
@@ -129,18 +211,18 @@ export default class MyPage extends React.Component{
                                             fontWeight: 'bold'
                                         }}
                                     >
-                                        Dr.Pancake
+                                        {this.state.stageName}
                                     </Text>
                                 </View>
                                 <View>
-                                    <Image
-                                        source={require('../../../images/女.png')}
-                                        style={{
-                                            width:16,
-                                            height:16,
-                                            marginTop:2
-                                        }}
-                                    />
+                                    {/*<Image*/}
+                                        {/*source={require('../../../images/女.png')}*/}
+                                        {/*style={{*/}
+                                            {/*width:16,*/}
+                                            {/*height:16,*/}
+                                            {/*marginTop:2*/}
+                                        {/*}}*/}
+                                    {/*/>*/}
                                 </View>
                             </View>
                             <View
@@ -159,14 +241,7 @@ export default class MyPage extends React.Component{
                                         borderRadius:9
                                     }}
                                 >
-                                    <Text
-                                        style={{
-                                            fontSize:9,
-                                            color:'#76c5ff'
-                                        }}
-                                    >
-                                        正式会员
-                                    </Text>
+                                    {roleItem}
                                 </View>
                             </View>
 

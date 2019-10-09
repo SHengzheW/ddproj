@@ -36,7 +36,6 @@ export default class HomeSecondPage extends React.Component{
 
 
 
-
         return(
             <View style={{
                 width: allWidth,

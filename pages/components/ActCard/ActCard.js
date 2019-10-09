@@ -15,11 +15,15 @@ export default class ActCard extends React.Component{
         super(props);
 
         this.state={
+            title: props.title,
             distance:'333m',
             actName:'超值单人餐38元吃！双人餐98元吃！3-4人',
-            price:'',
+            price: props.price,
             location:'厦饭',
-            imgUrl:require('../../images/酸菜鱼.jpg')
+            imgUrl:require('../../images/酸菜鱼.jpg'),
+            soldNum: props.soldNum,
+            shop:props.shop
+
         }
     }
 
@@ -56,7 +60,7 @@ export default class ActCard extends React.Component{
                 >
                     <View style={styles.tagPanel}>
                         <Text>
-                            下饭酸菜鱼
+                            {this.state.shop.title}
                         </Text>
                     </View>
                 </ImageBackground>
@@ -77,7 +81,7 @@ export default class ActCard extends React.Component{
                                 color:'#333'
                             }}
                         >
-                            {this.state.actName}
+                            {this.state.title}
                         </Text>
                     </View>
                     <View style={styles.introPanel}>
@@ -86,7 +90,7 @@ export default class ActCard extends React.Component{
                         >
                             <Text
                                 style={styles.smallText}
-                            >{this.state.location}</Text>
+                            >{this.state.shop.address}</Text>
                         </View>
 
                         <View
@@ -113,7 +117,7 @@ export default class ActCard extends React.Component{
                                     color: '#000'
                                 }}
                             >
-                                ￥138
+                                ￥{this.state.price.orgMaxPrice}
                             </Text>
                         </View>
 
@@ -126,7 +130,7 @@ export default class ActCard extends React.Component{
                                     color:'#999'
                                 }}
                             >
-                                热销148份
+                                热销{this.state.soldNum}份
                             </Text>
                         </View>
                     </View>
