@@ -5,7 +5,9 @@ import SearchResult from './SearchResult/SearchResult';
 import ResultCard from '../components/ResultCard/ResultCard';
 import RecommendCard from '../components/RecommendCard/RecommendCard';
 import global from '../Global';
+import HTMLView from 'react-native-htmlview';
 
+const allHeight = Dimensions.get('window').height;
 const allWidth = Dimensions.get('window').width;
 
 export default class CommodityDetails extends React.Component{
@@ -71,6 +73,9 @@ export default class CommodityDetails extends React.Component{
     }
 
     render(){
+
+        //测试rn-htmlview
+        const htmlContent = "<h2>djwada</h2><p><span style=\"font-style: italic;\">你打打</span></p><p><img src=\"https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1570814783381&amp;di=53a9ba4a3d0b15c071718ec27b20d7b5&amp;imgtype=0&amp;src=http%3A%2F%2Fi1.chuimg.com%2Fb2b4f6829e7611e59fbbb82a72e00100.jpg%402o_50sh_1pr_1l_600w_90q_1wh\" style=\"max-width:100%;\"><span style=\"font-style: italic;\"><br></span></p><p><br></p>";
 
         //推荐的商品
         let recommendFoodListItems = [];
@@ -214,11 +219,18 @@ export default class CommodityDetails extends React.Component{
         return(
             <View
                 style={{
+
                     flex:1,
                     justifyContent:'flex-start',
                     alignItems:'flex-start'
                 }}
             >
+                <View
+                    style={{
+                        width: allWidth,
+                        height: allHeight*0.9
+                    }}
+                >
                 {/*照片墙*/}
                 <ImageBackground
                     source={require('../images/厦饭.jpg')}
@@ -418,6 +430,24 @@ export default class CommodityDetails extends React.Component{
                                 商品详情
                             </Text>
                         </View>
+                        <View style={{
+                            width: allWidth*0.9,
+                            marginTop:20
+                        }}>
+                            <HTMLView
+                                value={htmlContent}
+
+                            />
+
+                        </View>
+                        <View
+                            style={{
+                                width: allWidth,
+                                height: 30
+                            }}
+                        />
+
+
                     </View>
                 </View>
 
@@ -579,10 +609,11 @@ export default class CommodityDetails extends React.Component{
                 {recommendItem}
 
 
+                </View>
                 <View
                     style={{
                         width: allWidth,
-                        height: 83,
+                        height: allHeight*0.1,
                         backgroundColor:'#f7f7f7',
                         alignItems:'center',
                         justifyContent:'center'
@@ -635,6 +666,7 @@ export default class CommodityDetails extends React.Component{
                         </View>
                     </View>
                 </View>
+
 
             </View>
         );

@@ -1,8 +1,17 @@
 import React from 'react';
-import {View, Text, Dimensions, StyleSheet, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Dimensions, StyleSheet, ScrollView, Image, TouchableOpacity, TextInput} from 'react-native';
 import {Provider, Modal} from '@ant-design/react-native';
 
 const allWidth = Dimensions.get('window').width;
+const allHeight = Dimensions.get('window').height;
+
+
+
+function ShowPayment(props){
+
+
+}
+
 
 
 export default class ConfirmOrder extends React.Component{
@@ -18,12 +27,349 @@ export default class ConfirmOrder extends React.Component{
             price:'14.90',
             num:'1',
             visible:false,
+            payment:'alipay',
+            agreeDeal:false,
+            buyName:'',
+            phone:''
+
         }
 
     }
 
 
     render(){
+
+        {/**
+         * 是否同意条款
+         */}
+        let showAgreeDeal = [];
+        if(this.state.agreeDeal){
+            showAgreeDeal.push(
+                <TouchableOpacity
+                    onPress={()=>{
+                        this.setState({
+                            agreeDeal: !this.state.agreeDeal
+                        })
+                    }}
+                >
+                <Image
+
+                    source={require('../../../images/选中-选中.png')}
+                    style={{
+                        width: 20,
+                        height: 20
+                    }}
+                />
+                </TouchableOpacity>
+            )
+
+        }else{
+            showAgreeDeal.push(
+                <TouchableOpacity
+                    onPress={()=>{
+                        this.setState({
+                            agreeDeal: !this.state.agreeDeal
+                        })
+                    }}
+                >
+                <Image
+                    onPress={()=>{
+                        this.setState({
+                            agreeDeal: !this.state.agreeDeal
+                        })
+                    }}
+                    source={require('../../../images/选中.png')}
+                    style={{
+                        width: 20,
+                        height: 20
+                    }}
+                />
+                </TouchableOpacity>
+            )
+
+        }
+
+
+        {/**
+         * 选择微信支付还是支付宝
+         */}
+        let showPayment = [];
+        if(this.state.payment.indexOf('alipay')===-1){
+            showPayment.push(
+
+                <View
+                    style={{
+                        width: allWidth,
+                        height: 106,
+                        backgroundColor: '#fff',
+                        marginTop:10,
+
+                    }}
+                >
+                    <TouchableOpacity
+                        onPress={()=>{
+                            this.setState({
+                                payment:'wechat'
+                            })
+                        }}
+                    >
+                    <View
+                        style={{
+                            width: allWidth,
+                            height: 52,
+                            justifyContent:'center',
+                            flexDirection:'row'
+                        }}
+                    >
+                        <View
+                            style={{
+                                width: 56,
+                                height: 52,
+                                justifyContent:'center',
+                                alignItems:'center'
+                            }}
+                        >
+                            <Image
+                                source={require('../../../images/微信支付-选中.png')}
+                                style={{
+                                    width: 22,
+                                    height: 22
+                                }}
+                            />
+                        </View>
+                        <View
+                            style={{
+                                width: allWidth-56-56,
+                                height:52,
+                                justifyContent:'center'
+                            }}
+                        >
+                            <Text>微信支付</Text>
+                        </View>
+                        <View
+                            style={{
+                                width: 56,
+                                height: 52,
+                                justifyContent:'center',
+                                alignItems:'center'
+                            }}
+                        >
+                            <Image
+                                source={require('../../../images/对号.png')}
+                                style={{
+                                    width: 24,
+                                    height: 24
+                                }}
+                            />
+
+                        </View>
+                    </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={()=>{
+                            this.setState({
+                                payment:'alipay'
+                            })
+                        }}
+                    >
+                    <View
+                        style={{
+                            width: allWidth,
+                            height: 2,
+                            backgroundColor:'#f7f7f7'
+                        }}
+                    />
+                    <View
+                        style={{
+                            width: allWidth,
+                            height: 52,
+                            justifyContent:'center',
+                            flexDirection:'row'
+                        }}
+                    >
+
+                        <View
+                            style={{
+                                width: 56,
+                                height: 52,
+                                justifyContent:'center',
+                                alignItems:'center'
+                            }}
+                        >
+                            <Image
+                                source={require('../../../images/支付宝-选中.png')}
+                                style={{
+                                    width: 22,
+                                    height: 22
+                                }}
+                            />
+                        </View>
+                        <View
+                            style={{
+                                width: allWidth-56-56,
+                                height:52,
+                                justifyContent:'center'
+                            }}
+                        >
+                            <Text>支付宝</Text>
+                        </View>
+                        <View
+                            style={{
+                                width: 56,
+                                height: 52
+                            }}
+                        >
+
+
+                        </View>
+
+
+                    </View>
+
+
+                    </TouchableOpacity>
+                </View>
+            )
+
+        }else{
+            showPayment.push(
+                <View
+                    style={{
+                        width: allWidth,
+                        height: 106,
+                        backgroundColor: '#fff',
+                        marginTop:10,
+
+                    }}
+                >
+                    <TouchableOpacity
+                        onPress={()=>{
+                            this.setState({
+                                payment:'wechat'
+                            })
+                        }}
+                    >
+
+                        <View
+                            style={{
+                                width: allWidth,
+                                height: 52,
+                                justifyContent:'center',
+                                flexDirection:'row'
+                            }}
+                        >
+
+                            <View
+                                style={{
+                                    width: 56,
+                                    height: 52,
+                                    justifyContent:'center',
+                                    alignItems:'center'
+                                }}
+                            >
+                                <Image
+                                    source={require('../../../images/微信支付-选中.png')}
+                                    style={{
+                                        width: 22,
+                                        height: 22
+                                    }}
+                                />
+                            </View>
+                            <View
+                                style={{
+                                    width: allWidth-56-56,
+                                    height:52,
+                                    justifyContent:'center'
+                                }}
+                            >
+                                <Text>微信支付</Text>
+                            </View>
+                            <View
+                                style={{
+                                    width: 56,
+                                    height: 52
+                                }}
+                            >
+
+
+                            </View>
+
+
+                        </View>
+
+
+                    </TouchableOpacity>
+                    <View
+                        style={{
+                            width: allWidth,
+                            height: 2,
+                            backgroundColor:'#f7f7f7'
+                        }}
+                    />
+                    <TouchableOpacity
+                        onPress={()=>{
+                            this.setState({
+                                payment:'alipay'
+                            })
+                        }}
+                    >
+                        <View
+                            style={{
+                                width: allWidth,
+                                height: 52,
+                                justifyContent:'center',
+                                flexDirection:'row'
+                            }}
+                        >
+                            <View
+                                style={{
+                                    width: 56,
+                                    height: 52,
+                                    justifyContent:'center',
+                                    alignItems:'center'
+                                }}
+                            >
+                                <Image
+                                    source={require('../../../images/支付宝-选中.png')}
+                                    style={{
+                                        width: 22,
+                                        height: 22
+                                    }}
+                                />
+                            </View>
+                            <View
+                                style={{
+                                    width: allWidth-56-56,
+                                    height:52,
+                                    justifyContent:'center'
+                                }}
+                            >
+                                <Text>支付宝</Text>
+                            </View>
+                            <View
+                                style={{
+                                    width: 56,
+                                    height: 52,
+                                    justifyContent:'center',
+                                    alignItems:'center'
+                                }}
+                            >
+                                <Image
+                                    source={require('../../../images/对号.png')}
+                                    style={{
+                                        width: 24,
+                                        height: 24
+                                    }}
+                                />
+
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+
+                </View>
+
+            )
+        }
 
 
         return(
@@ -36,22 +382,12 @@ export default class ConfirmOrder extends React.Component{
                     backgroundColor:'#f7f7f7'
                 }}
             >
-                <Modal
-                    transparent
-                    maskClosable
-                    visible={this.state.visible}
-                    closable
-                    onClose={()=>{
-                        this.setState({
-                            visible: false,
-                        })
-                    }}
+                <View
                     style={{
-                        width: 280,
-                        height: 200
+                        width: allWidth,
+                        height: allHeight*0.9
                     }}
-                    >
-                </Modal>
+                >
                 <View
                     style={styles.topBar}
                 >
@@ -92,7 +428,9 @@ export default class ConfirmOrder extends React.Component{
                         </View>
                         <View
                             style={styles.rightWhitePanel}
-                        />
+                        >
+
+                        </View>
 
                     </View>
                     {/*联系方式填写栏*/}
@@ -113,6 +451,17 @@ export default class ConfirmOrder extends React.Component{
                                 >
                                     联系人
                                 </Text>
+                            </View>
+                            <View style={styles.rightInputTitlePanel}>
+                                <TextInput
+                                    style={{ width: allWidth - 100, height: 40 }}
+                                    onChangeText={text => {
+                                        this.setState({
+                                            buyName: text
+                                        })
+                                    }}
+                                    value={this.state.buyName}
+                                />
                             </View>
 
                         </View>
@@ -139,6 +488,21 @@ export default class ConfirmOrder extends React.Component{
                                 >
                                     手机号
                                 </Text>
+                            </View>
+                            <View
+                                style={styles.rightInputTitlePanel}
+                            >
+                                <TextInput
+                                    style={{ width: allWidth - 100,height: 40 }}
+                                    onChangeText={text => {
+                                        this.setState({
+                                            phone: text
+                                        })
+                                    }}
+                                    value={this.state.phone}
+                                />
+
+
                             </View>
 
                         </View>
@@ -305,13 +669,14 @@ export default class ConfirmOrder extends React.Component{
                            alignItems:'center'
                        }}
                     >
-                        <Image
-                            source={require('../../../images/选中.png')}
-                            style={{
-                                width: 20,
-                                height: 20
-                            }}
-                        />
+                        {showAgreeDeal}
+                        {/*<Image*/}
+                            {/*source={require('../../../images/选中.png')}*/}
+                            {/*style={{*/}
+                                {/*width: 20,*/}
+                                {/*height: 20*/}
+                            {/*}}*/}
+                        {/*/>*/}
                     </View>
                     <View
                         style={{
@@ -327,125 +692,19 @@ export default class ConfirmOrder extends React.Component{
 
                 </View>
 
-                {/*支付方式*/}
-                <View
-                    style={{
-                        width: allWidth,
-                        height: 106,
-                        backgroundColor: '#fff',
-                        marginTop:10,
-
-                    }}
-                >
-                    <View
-                        style={{
-                            width: allWidth,
-                            height: 52,
-                            justifyContent:'center',
-                            flexDirection:'row'
-                        }}
-                    >
-                        <View
-                            style={{
-                                width: 56,
-                                height: 52,
-                                justifyContent:'center',
-                                alignItems:'center'
-                            }}
-                        >
-                            <Image
-                                source={require('../../../images/微信支付-选中.png')}
-                                style={{
-                                    width: 22,
-                                    height: 22
-                                }}
-                            />
-                        </View>
-                        <View
-                            style={{
-                                width: allWidth-56-56,
-                                height:52,
-                                justifyContent:'center'
-                            }}
-                        >
-                            <Text>微信支付</Text>
-                        </View>
-                        <View
-                            style={{
-                                width: 56,
-                                height: 52,
-                                justifyContent:'center',
-                                alignItems:'center'
-                            }}
-                        >
-                            <Image
-                                source={require('../../../images/对号.png')}
-                                style={{
-                                    width: 24,
-                                    height: 24
-                                }}
-                            />
-
-                        </View>
-                    </View>
-
-                    <View
-                        style={{
-                            width: allWidth,
-                            height: 2,
-                            backgroundColor:'#f7f7f7'
-                        }}
-                    />
-                    <View
-                        style={{
-                            width: allWidth,
-                            height: 52,
-                            justifyContent:'center',
-                            flexDirection:'row'
-                        }}
-                    >
-
-                        <View
-                            style={{
-                                width: 56,
-                                height: 52,
-                                justifyContent:'center',
-                                alignItems:'center'
-                            }}
-                        >
-                            <Image
-                                source={require('../../../images/支付宝-选中.png')}
-                                style={{
-                                    width: 22,
-                                    height: 22
-                                }}
-                            />
-                        </View>
-                        <View
-                            style={{
-                                width: allWidth-56-56,
-                                height:52,
-                                justifyContent:'center'
-                            }}
-                        >
-                            <Text>支付宝支付</Text>
-                        </View>
-                        <View
-                            style={{
-                                width: 56,
-                                height: 52
-                            }}
-                        >
-
-
-                        </View>
-
-
-                    </View>
-
-
-
+                {/**支付方式*/}
+                {showPayment}
                 </View>
+                {/*<View*/}
+                    {/*style={{*/}
+                        {/*width: allWidth,*/}
+                        {/*height: allHeight*0.1,*/}
+                        {/*backgroundColor:'#fff'*/}
+                    {/*}}*/}
+                {/*>*/}
+
+
+                {/*</View>*/}
             </View>
             </Provider>
         );
@@ -487,12 +746,18 @@ const styles = StyleSheet.create({
     contactInputPanel:{
        width:allWidth,
         height:40,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flexDirection:'row'
     },
     leftInputTitlePanel:{
        width:20+40+20,
         alignItems:'center',
         justifyContent:'center'
+    },
+    rightInputTitlePanel:{
+        width: allWidth-80,
+        height:40,
+        alignItems: 'center'
     },
     orderDetails:{
        width: allWidth,
