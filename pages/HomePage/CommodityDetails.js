@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Text, Image} from 'react-native';
+import {Button, Modal} from '@ant-design/react-native';
 import {ImageBackground, Alert} from 'react-native';
 import SearchResult from './SearchResult/SearchResult';
 import ResultCard from '../components/ResultCard/ResultCard';
@@ -9,6 +10,64 @@ import HTMLView from 'react-native-htmlview';
 
 const allHeight = Dimensions.get('window').height;
 const allWidth = Dimensions.get('window').width;
+
+
+
+function SelectItem(props) {
+
+    if(!props.state) {
+
+        return <View
+            style={{
+                paddingLeft: 15,
+                paddingRight: 15,
+                maxWidth: allWidth - 30,
+                borderRadius: 10,
+                paddingTop: 10,
+                paddingBottom: 10,
+                backgroundColor: '#eee',
+                marginLeft: 5,
+                marginTop: 5
+
+            }}
+        >
+
+                <Text
+                    style={{
+                        color: '#222'
+                    }}
+                >
+                    {props.name}
+                </Text>
+        </View>
+    }else{
+        return <View
+            style={{
+                paddingLeft: 15,
+                paddingRight: 15,
+                maxWidth: allWidth - 30,
+                borderRadius: 10,
+                paddingTop: 10,
+                paddingBottom: 10,
+                backgroundColor: '#F8FCFF',
+                marginLeft: 5,
+                borderColor:'#55acee',
+                borderWidth: 1,
+                marginTop:5
+            }}
+        >
+            <Text
+                style={{
+                    color: '#55acee'
+                }}
+            >
+                {props.name}
+            </Text>
+        </View>
+
+    }
+}
+
 
 export default class CommodityDetails extends React.Component{
 
@@ -24,7 +83,15 @@ export default class CommodityDetails extends React.Component{
             service:[],
             price:'',
             shop:'',
-            foodList:[]
+            foodList:[],
+            num:1,
+            dialogVisible:false,
+            itemList:[],
+            chooseItemIndex:'',
+            itemTitle:'',
+            itemPrice:'',
+            itemOrgPrice:'',
+            totalNum:'',
         }
 
     }
@@ -36,18 +103,31 @@ export default class CommodityDetails extends React.Component{
             headers:{
                 Authorization: 'Bearer '+global.token
             }
+
         }).then((response)=>response.json())
             .then((res)=>{
                 console.log(res.data);
+                let itemList = res.data.itemList;
+                for(let index = 0; index<itemList.length; index++ ){
+                    itemList[index].state = false;
+                    itemList[index].index = index;
+                }
+                itemList[0].state = true;
                 _this.setState({
                     title:res.data.title,
                     soldNum:res.data.soldNum,
                     service:res.data.service.split(','),
                     price:res.data.price,
-                    shop:res.data.shop
+                    shop:res.data.shop,
+                    itemList: itemList,
+                    chooseItemIndex: 0,
+                    itemTitle: itemList[0].title,
+                    itemPrice: itemList[0].price,
+                    itemOrgPrice: itemList[0].orgPrice,
+                    totalNum: itemList[0].totalNum
 
+                });
 
-                })
             }).catch((err)=>{
                 console.log(err);
         });
@@ -72,10 +152,44 @@ export default class CommodityDetails extends React.Component{
 
     }
 
-    render(){
+    render() {
+
+        /***
+         * 展示所有的可选项目
+         * */
+        let selectItems = [];
+        let itemList = this.state.itemList;
+        itemList.forEach((item)=>{
+            selectItems.push(
+                <TouchableOpacity
+                    onPress={()=>{
+                        let chooseIndex = item.index;
+                        this.setState({
+                            chooseItemIndex: item.index,
+                            itemTitle:item.title,
+                            itemPrice: item.price,
+                            itemOrgPrice: item.orgPrice,
+                            totalNum: item.totalNum
+                        });
+
+                        let itemList = this.state.itemList;
+                        for(let index = 0; index<itemList.length; index++){
+                            itemList[index].state = itemList[index].index === chooseIndex;
+                        }
+
+                        this.setState({
+                            itemList: itemList
+                        })
+
+                    }}
+                >
+                    <SelectItem state={item.state} name={item.title} />
+                </TouchableOpacity>
+            )
+        });
 
         //测试rn-htmlview
-        const htmlContent = "<h2>djwada</h2><p><span style=\"font-style: italic;\">你打打</span></p><p><img src=\"https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1570814783381&amp;di=53a9ba4a3d0b15c071718ec27b20d7b5&amp;imgtype=0&amp;src=http%3A%2F%2Fi1.chuimg.com%2Fb2b4f6829e7611e59fbbb82a72e00100.jpg%402o_50sh_1pr_1l_600w_90q_1wh\" style=\"max-width:100%;\"><span style=\"font-style: italic;\"><br></span></p><p><br></p>";
+        const htmlContent = "<h2>djwada</h2><p><span style=\"font-style: italic;\">你打打</span></p><p><img src=\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571117754327&di=5e618d3616598b6e5c50a561050a8255&imgtype=0&src=http%3A%2F%2Fp0.ifengimg.com%2Fpmop%2F2017%2F1001%2F2DB7420552DB01E62DCDBDFB88CA0C74396561FC_size101_w640_h463.jpeg\" style=\"max-width:100%;\"><span style=\"font-style: italic;\"><br></span></p><p><br></p>";
 
         //推荐的商品
         let recommendFoodListItems = [];
@@ -225,10 +339,11 @@ export default class CommodityDetails extends React.Component{
                     alignItems:'flex-start'
                 }}
             >
-                <View
+                <ScrollView
                     style={{
                         width: allWidth,
-                        height: allHeight*0.9
+                        height: allHeight*0.9,
+
                     }}
                 >
                 {/*照片墙*/}
@@ -609,7 +724,7 @@ export default class CommodityDetails extends React.Component{
                 {recommendItem}
 
 
-                </View>
+                </ScrollView>
                 <View
                     style={{
                         width: allWidth,
@@ -642,12 +757,20 @@ export default class CommodityDetails extends React.Component{
                                 alignItems:'flex-end'
                             }}
                         >
+                            <TouchableOpacity
+                                onPress={()=>{
+                                    this.setState({
+                                        dialogVisible: true
+                                    })
+
+                                }}
+                            >
                             <View
                                 style={{
                                     width: 146,
                                     height: 42,
                                     borderRadius: 21,
-                                    backgroundColor:'#8ed6f8',
+                                    backgroundColor:'#55acee',
                                     alignItems:'center',
                                     justifyContent:'center'
                                 }}
@@ -662,10 +785,251 @@ export default class CommodityDetails extends React.Component{
                                     立即购买
                                 </Text>
                             </View>
+                            </TouchableOpacity>
 
                         </View>
                     </View>
                 </View>
+                {/**
+                 * 下方弹出的对话框
+                 */}
+                <Modal
+                    popup
+                    visible={this.state.dialogVisible}
+                    animationType="slide-up"
+                    onClose={this.onClose2}
+                >
+                    <View
+                        style={{marginTop: 10,width: allWidth, height: 20, alignItems:'flex-end', justifyContent:'flex-end'}}
+                    >
+                        <TouchableOpacity
+                            onPress={()=>{
+                                this.setState({
+                                    dialogVisible: false
+                                })
+                            }}
+                        >
+                            <Image
+                                source={require('../images/关闭.png')}
+                                style={{width: 20,height: 20, marginRight: 15}}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ paddingVertical: 13, paddingHorizontal: 10, width: allWidth, height: 330 }}>
+                        {/**
+                         * 显示所选项
+                         */}
+                        <View
+                            style={{
+                                width: allWidth,
+                                height: 100,
+                                flexDirection:'row'
+                            }}
+                        >
+                            <View
+                                style={{
+                                    width: 100,
+                                    height: 100,
+                                    backgroundColor:'#000'
+                                }}
+                            />
+                            <View
+                                style={{
+                                    width: allWidth-160,
+                                    marginLeft: 15,
+                                    // height: 20,
+
+                                }}
+                            >
+                                <View>
+                                    <Text
+                                        style={{
+                                            fontSize: 16,
+                                            fontWeight: 'bold'
+                                        }}
+                                    >
+                                        {this.state.itemTitle}
+                                    </Text>
+                                </View>
+                                <View>
+                                    <Text
+                                        style={{
+                                            color:'#666',
+                                            fontSize: 10,
+                                            marginTop: 4
+                                        }}
+                                    >
+                                        剩余{this.state.totalNum}份
+                                    </Text>
+                                </View>
+                                <View
+                                    style={{
+                                        marginTop: 5
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            color:'#d65827',
+                                            fontWeight:'bold',
+                                            fontSize:12
+                                        }}
+                                    >
+                                        ￥ {this.state.itemPrice}
+                                    </Text>
+                                </View>
+                            </View>
+
+                        </View>
+
+                        {/**
+                         * 显示可以选择的选项
+                         * */}
+                         <Text
+                            style={{
+                                marginTop: 20,
+                                fontSize: 12,
+                                color:'#222'
+                            }}
+                         >
+                             可选套餐
+                         </Text>
+                        <View
+                            style={{
+                                marginTop: 15,
+                                width: allWidth-20,
+                                flexDirection:'row',
+                                paddingLeft: 10,
+                                paddingRight: 10,
+                                flexWrap:'wrap'
+                            }}
+                        >
+                            {selectItems}
+
+
+                        </View>
+
+                        <View
+                            style={{
+                                marginTop: 15,
+                                width: allWidth,
+                                flexDirection:'row',
+                                paddingLeft: 10,
+                                paddingRight: 10,
+
+                                height:30
+                            }}
+                        >
+                            <View
+                                style={{
+                                    width: allWidth-120,
+                                    height:30,
+
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: 12,
+                                        color:'#222',
+                                        marginLeft: -10,
+                                        lineHeight: 30
+                                    }}
+                                >
+                                    数量：
+                                </Text>
+                            </View>
+                            <View
+                                style={{
+                                    width: 100,
+                                    height: 30,
+                                    flexDirection:'row'
+                                }}
+                            >
+                                <TouchableOpacity
+                                    onPress={()=>{
+                                        if(this.state.num>1) {
+                                            this.setState({
+                                                num: this.state.num - 1
+                                            })
+                                        }
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            fontSize: 18,
+                                            color:'#55acee',
+                                            lineHeight: 30
+                                        }}
+                                    >
+                                        -
+                                    </Text>
+                                </TouchableOpacity>
+                                <Text
+                                    style={{
+                                        marginLeft: 10,
+                                        marginRight: 10,
+                                        lineHeight: 30
+                                    }}
+                                >
+                                    {this.state.num}
+                                </Text>
+                                <TouchableOpacity
+                                    onPress={()=>{
+                                        this.setState({
+                                            num: this.state.num+1
+                                        })
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            fontSize: 18,
+                                            color:'#55acee',
+                                            lineHeight: 30
+                                        }}
+                                    >
+                                        +
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+
+                        </View>
+                    </View>
+                    <View
+                        style={{
+                            width: allWidth,
+                            alignItems:'center',
+                            justifyContent:'flex-start',
+                            marginBottom: 30
+                        }}
+                    >
+                        <TouchableOpacity
+                            onPress={()=>{
+                                this.setState({
+                                    dialogVisible: false
+                                });
+                                this.props.navigation.navigate('ConfirmOrder',{id:this.state.id, num: this.state.num, itemIndex: this.state.chooseItemIndex});
+                            }}
+                        >
+                        <View
+                            style={{
+                                width: allWidth*0.8,
+                                height: 40,
+                                alignItems:'center',
+                                justifyContent:'center',
+                                borderRadius: 20,
+                                backgroundColor:'#55acee'
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    color:'white'
+                                }}
+                            >
+                                立即购买
+                            </Text>
+                        </View>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
 
 
             </View>

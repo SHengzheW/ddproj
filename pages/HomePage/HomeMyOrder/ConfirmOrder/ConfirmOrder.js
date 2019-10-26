@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, Dimensions, StyleSheet, ScrollView, Image, TouchableOpacity, TextInput} from 'react-native';
 import {Provider, Modal} from '@ant-design/react-native';
-
+import global from '../../../Global';
 const allWidth = Dimensions.get('window').width;
 const allHeight = Dimensions.get('window').height;
 
@@ -25,15 +25,52 @@ export default class ConfirmOrder extends React.Component{
         this.state={
             orderId: this.props.navigation.getParam('orderId'),
             price:'14.90',
-            num:'1',
+            num:this.props.navigation.state.params.num,
             visible:false,
             payment:'alipay',
             agreeDeal:false,
             buyName:'',
-            phone:''
+            phone:'',
+            totalPrice:'',
+            id:this.props.navigation.state.params.id,
+            title:'',
+            soldNum:'',
+            service:'',
+            // ItemPrice:'',
+            shop:'',
+            itemIndex: this.props.navigation.state.params.itemIndex,
+            itemList:['','','','','','','','','','','','','','','','','','','','','','','','','','','','','']
 
         }
 
+    }
+    componentDidMount(): void {
+        let _this = this;
+        fetch(global.baseUrl+'/detail/food?id='+this.state.id,{
+            method:'get',
+            headers:{
+                Authorization: 'Bearer '+global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                console.log(res.data);
+                _this.setState({
+                    title:res.data.title,
+                    soldNum:res.data.soldNum,
+                    service:res.data.service.split(','),
+                    price:res.data.price,
+                    shop:res.data.shop,
+                    itemList: res.data.itemList
+                });
+                setTimeout(()=>{
+                    _this.setState({
+                        totalPrice: _this.state.itemList[_this.state.itemIndex].price * _this.state.num
+                    })
+                }, 500);
+                _
+            }).catch((err)=>{
+            console.log(err);
+        });
     }
 
 
@@ -385,7 +422,7 @@ export default class ConfirmOrder extends React.Component{
                 <View
                     style={{
                         width: allWidth,
-                        height: allHeight*0.9
+                        height: allHeight*0.94
                     }}
                 >
                 <View
@@ -397,7 +434,7 @@ export default class ConfirmOrder extends React.Component{
                     >
                         <TouchableOpacity
                             onPress={()=>{
-                                this.props.navigation.navigate('TabNavigator');
+                                this.props.navigation.goBack();
                             }}
                         >
                             <View
@@ -539,7 +576,10 @@ export default class ConfirmOrder extends React.Component{
                                 justifyContent:'center'
                             }}
                         >
-                            <Text>
+                            <Text
+                                style={{marginLeft:5}}
+                            >
+                                {this.state.itemList[this.state.itemIndex].title}
                             </Text>
                         </View>
                         <View
@@ -551,7 +591,7 @@ export default class ConfirmOrder extends React.Component{
                             }}
                         >
                             <Text>
-                                ￥{this.state.price}
+                                ￥{this.state.itemList[this.state.itemIndex].price}
                             </Text>
                             <Text>
                                 x {this.state.num}
@@ -602,7 +642,8 @@ export default class ConfirmOrder extends React.Component{
                                     marginRight: 20
                                 }}
                             >
-                                LE NUOVA乐诺华（世贸双子塔店）
+                                {/*LE NUOVA乐诺华（世贸双子塔店）*/}
+                                {this.state.shop.title}
                             </Text>
                         </View>
 
@@ -642,7 +683,7 @@ export default class ConfirmOrder extends React.Component{
                                     marginRight: 20
                                 }}
                             >
-                                ￥14.90
+                                ￥{this.state.totalPrice}
                             </Text>
                         </View>
 
@@ -695,16 +736,71 @@ export default class ConfirmOrder extends React.Component{
                 {/**支付方式*/}
                 {showPayment}
                 </View>
-                {/*<View*/}
-                    {/*style={{*/}
-                        {/*width: allWidth,*/}
-                        {/*height: allHeight*0.1,*/}
-                        {/*backgroundColor:'#fff'*/}
-                    {/*}}*/}
-                {/*>*/}
+                <View
+                    style={{
+                        width: allWidth,
+                        height: allHeight*0.06,
+                        backgroundColor:'#fff',
+                        flexDirection:'row'
+                    }}
+                >
+                    <View
+                        style={{
+                            width: allWidth*0.7,
+                            height: allHeight*0.06,
+                            alignItems:'center',
+                            justifyContent:'center'
+                        }}
+                    >
+                        <Text>
+                            总计：{this.state.totalPrice}元
+                        </Text>
+                    </View>
+                    <TouchableOpacity
 
+                        onPress={()=>{
+                            let orderForm = {
+                                status:0,
+                                name: this.state.buyName,
+                                telephone: this.state.phone,
+                                wares:[
+                                    {
 
-                {/*</View>*/}
+                                    }
+                                ]
+                            };
+
+                            fetch(global.baseUrl+'/order/food',{
+                                method:'post',
+                                headers:{
+                                    'Content-Type':'application/json'
+                                },
+                                body:JSON.stringify(orderForm)
+                            })
+                        }}
+                    >
+                        <View
+                            style={{
+                                width: allWidth*0.3,
+                                height:allHeight*0.06,
+                                backgroundColor:'#55acee',
+                                alignItems:'center',
+                                justifyContent:'center',
+                                // borderRadius: allHeight*0.03
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    color:'#fff',
+                                    fontSize: 15
+                                }}
+                            >
+                                提交订单
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+
+                </View>
             </View>
             </Provider>
         );

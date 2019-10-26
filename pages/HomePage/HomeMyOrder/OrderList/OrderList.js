@@ -359,15 +359,7 @@ export default class OrderList extends React.Component{
                             alignItems:'center'
                         }}
                     >
-                        <TouchableOpacity
-                            onPress={()=>{
-                                this.props.navigation.navigate('ConfirmOrder',{
-                                    orderId:'5'
-                                });
-                            }}
-                        >
-                            <OrderCard/>
-                        </TouchableOpacity>
+                        <OrderCard/>
                         <TouchableOpacity
                             onPress={()=>{
                                 this.props.navigation.navigate('OrderDetails')

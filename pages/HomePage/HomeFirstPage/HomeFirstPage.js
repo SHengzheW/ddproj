@@ -86,7 +86,13 @@ export default class HomeFirstPage extends React.Component{
         let recommendShopList = this.state.recommendShopList;
         recommendShopList.forEach((item)=>{
            todayEatItems.push(
-               <ShopCard avater={item.shop.avater} name={item.shop.title} key={item.shop.id}/>
+               <TouchableOpacity
+                   onPress={()=>{
+                       this.props.navigation.navigate('ShopDetails');
+                   }}
+               >
+                <ShopCard avater={item.shop.avater} name={item.shop.title} key={item.shop.id}/>
+               </TouchableOpacity>
            )
         });
 
