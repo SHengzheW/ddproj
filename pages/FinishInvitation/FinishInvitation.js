@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
        // backgroundColor:'#000'
    },
     topPanel:{
-       marginTop: global.useMarginTop + 30,
+       marginTop: global.useMarginTop,
         height:20,
         width:300,
         alignItems:'flex-end'

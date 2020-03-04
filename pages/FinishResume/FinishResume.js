@@ -331,7 +331,7 @@ export default class FinishResume extends React.Component{
                         width: Dimensions.get('window').width,
                         height: 50,
                         // backgroundColor:'#000',
-                        marginTop: global.useMarginTop,
+                        marginTop: 1,
                         justifyContent:'center',
                         alignItems:'center'
                     }}
@@ -434,6 +434,7 @@ export default class FinishResume extends React.Component{
                                 fontSize: 16,
                                 borderWidth: 0,
                                 borderBottomWidth: 1,
+                                opacity:0.5,
                                 borderTopColor: '#fff',
                                 borderLeftColor: '#fff',
                                 borderRightColor: '#fff',
@@ -477,6 +478,7 @@ export default class FinishResume extends React.Component{
                                 fontSize: 16,
                                 borderWidth: 0,
                                 borderBottomWidth: 1,
+                                opacity:0.5,
                                 borderTopColor: '#fff',
                                 borderLeftColor: '#fff',
                                 borderRightColor: '#fff',
@@ -632,6 +634,7 @@ export default class FinishResume extends React.Component{
                                 fontSize: 16,
                                 borderWidth: 0,
                                 borderBottomWidth: 1,
+                                opacity:0.5,
                                 borderTopColor: '#fff',
                                 borderLeftColor: '#fff',
                                 borderRightColor: '#fff',
