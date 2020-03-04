@@ -91,7 +91,7 @@ export default class OrderList extends React.Component{
                             width:Dimensions.get('window').width,
                             height:30,
                             flexDirection:'row',
-                            marginTop:40
+                            marginTop: global.useMarginTop
                         }}
                     >
                         <View

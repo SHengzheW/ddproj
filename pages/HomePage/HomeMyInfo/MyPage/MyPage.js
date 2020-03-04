@@ -463,7 +463,7 @@ const styles = StyleSheet.create({
     topIconPanel:{
        width:allWidth*0.9,
         height: 20,
-        marginTop: 42,
+        marginTop: global.useMarginTop,
         // marginLeft: 65 + allWidth * 0.05,
         flexDirection:'row',
 

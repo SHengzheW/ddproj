@@ -191,7 +191,7 @@ const inputHeight = 32;
 
 const styles = StyleSheet.create({
    searchPanel:{
-       marginTop:40,
+       marginTop:global.useMarginTop,
        width: allWidth,
        height:inputHeight,
        justifyContent: 'center',
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
        flexDirection:'row'
    },
     leftInputPanel:{
-       width:allWidth*0.77,
+       width:allWidth*0.85,
         height:inputHeight,
         backgroundColor:'whitesmoke',
         borderRadius:20

@@ -6,7 +6,8 @@ let global={
    token:'',
    topPanel:{
       marginTop:40
-   }
+   },
+   useMarginTop: 15
 
 };
 

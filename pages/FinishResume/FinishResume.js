@@ -92,11 +92,15 @@ export default class FinishResume extends React.Component{
             }
         }).then((response) => response.json())
             .then((responseJson) => {
-
+                
                 console.log(responseJson.data.professionList);
+
                 this.setState({
                     professionList : responseJson.data.professionList
-                })
+                });
+                // this.setState({
+                //     profession: this.state.professionList[0]
+                // });
             }).catch((error)=>{
                 console.log(error);
         })
@@ -124,9 +128,12 @@ export default class FinishResume extends React.Component{
         for (let i = 0; i < 20; i++){
             years.push({value: time.getFullYear()-i});
         }
+        renderItems.push(
+            <Picker.Item value={""} label="请选择" key={-2}/>
+        )
         years.forEach((item)=>{
             renderItems.push(
-                <Picker.Item value={item.value} label={item.value} key={item.value}/>
+                <Picker.Item value={item.value} label={item.value.toString()} key={item.value}/>
             )
         });
 
@@ -134,6 +141,9 @@ export default class FinishResume extends React.Component{
         {/*展示主修专业列表*/}
         let professionItems = [];
         let professions = this.state.professionList;
+        professionItems.push(
+            <Picker.Item value={""} label="请选择专业" key={-1} />
+        )
         professions.forEach((item)=>{
            professionItems.push(
                <Picker.Item value={item} label={item} key={item}/>
@@ -195,6 +205,7 @@ export default class FinishResume extends React.Component{
                                         gender: itemValue,
                                         genderColor:'#333'
                                     })}}>
+                                <Picker.Item label="请选择" value=""/>
                                 <Picker.Item label="男" value="男" />
                                 <Picker.Item label="女" value="女" />
                             </Picker>
@@ -320,7 +331,7 @@ export default class FinishResume extends React.Component{
                         width: Dimensions.get('window').width,
                         height: 50,
                         // backgroundColor:'#000',
-                        marginTop: 40,
+                        marginTop: global.useMarginTop,
                         justifyContent:'center',
                         alignItems:'center'
                     }}
@@ -421,7 +432,8 @@ export default class FinishResume extends React.Component{
                                 height: 40,
                                 width:320,
                                 fontSize: 16,
-                                borderWidth: 1,
+                                borderWidth: 0,
+                                borderBottomWidth: 1,
                                 borderTopColor: '#fff',
                                 borderLeftColor: '#fff',
                                 borderRightColor: '#fff',
@@ -463,7 +475,8 @@ export default class FinishResume extends React.Component{
                                 height: 40,
                                 width:320,
                                 fontSize: 16,
-                                borderWidth: 1,
+                                borderWidth: 0,
+                                borderBottomWidth: 1,
                                 borderTopColor: '#fff',
                                 borderLeftColor: '#fff',
                                 borderRightColor: '#fff',
@@ -515,7 +528,8 @@ export default class FinishResume extends React.Component{
                                 height: 40,
                                 width:320,
                                 fontSize: 16,
-                                borderWidth: 1,
+                                borderWidth: 0,
+                                borderBottomWidth: 1,
                                 borderTopColor: '#fff',
                                 borderLeftColor: '#fff',
                                 borderRightColor: '#fff',
@@ -545,7 +559,8 @@ export default class FinishResume extends React.Component{
                                     height: 40,
                                     width:320,
                                     fontSize: 16,
-                                    borderWidth: 1,
+                                    borderWidth: 0,
+                                    borderBottomWidth: 1,
                                     borderTopColor: '#fff',
                                     borderLeftColor: '#fff',
                                     borderRightColor: '#fff',
@@ -582,7 +597,8 @@ export default class FinishResume extends React.Component{
                                     height: 40,
                                     width:320,
                                     fontSize: 16,
-                                    borderWidth: 1,
+                                    borderWidth: 0,
+                                    borderBottomWidth: 1,
                                     borderTopColor: '#fff',
                                     borderLeftColor: '#fff',
                                     borderRightColor: '#fff',
@@ -614,7 +630,8 @@ export default class FinishResume extends React.Component{
                                 borderColor:this.state.introductionColor,
                                 width: 320,
                                 fontSize: 16,
-                                borderWidth: 1,
+                                borderWidth: 0,
+                                borderBottomWidth: 1,
                                 borderTopColor: '#fff',
                                 borderLeftColor: '#fff',
                                 borderRightColor: '#fff',

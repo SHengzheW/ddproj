@@ -55,7 +55,8 @@ export default class FinishInvitation extends React.Component {
                             height: 40,
                             width:320,
                             fontSize: 16,
-                            borderWidth: 1,
+                            borderWidth: 0,
+                            borderBottomWidth: 1,
                             borderTopColor: '#fff',
                             borderLeftColor: '#fff',
                             borderRightColor: '#fff'}}
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
        // backgroundColor:'#000'
    },
     topPanel:{
-       marginTop: 45,
+       marginTop: global.useMarginTop + 30,
         height:20,
         width:300,
         alignItems:'flex-end'

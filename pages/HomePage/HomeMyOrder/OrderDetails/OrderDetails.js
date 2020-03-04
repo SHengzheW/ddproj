@@ -74,7 +74,7 @@ export default class OrderDetails extends React.Component{
                     >
                         <View
                             style={{
-                                marginTop: 160,
+                                marginTop: 130,
                                 width: allWidth-40,
                                 height: 25,
                                 flexDirection:'row'

@@ -5,7 +5,9 @@ import ActCard from '../../components/ActCard/ActCard';
 import global from '../../Global';
 
 
-const {allWidth, allHeight} = Dimensions.get('window');
+const allWidth= Dimensions.get('window').width;
+
+const useWidth = allWidth * 0.9
 
 
 export default class HomeSecondPage extends React.Component{
@@ -53,7 +55,7 @@ export default class HomeSecondPage extends React.Component{
                 >
                     <Image
                         style={{
-                            width:330,
+                            width:useWidth,
                             height:110
                         }}
                         source={require('../../images/Banner.jpg')}
@@ -67,7 +69,7 @@ export default class HomeSecondPage extends React.Component{
                 </View>
 
                 <View style={{
-                    width:330,
+                    width:useWidth,
                     marginTop: 22
 
                 }}>
@@ -82,8 +84,8 @@ export default class HomeSecondPage extends React.Component{
 
 const styles = StyleSheet.create({
     searchPanel:{
-        marginTop: 40,
-        width:330,
+        marginTop: global.useMarginTop,
+        width:useWidth,
         height:32,
         backgroundColor: 'whitesmoke',
         borderRadius: 16,
@@ -96,13 +98,13 @@ const styles = StyleSheet.create({
         color:'#555'
     },
     banner:{
-        width:330,
+        width: useWidth,
         height:110,
         backgroundColor:'whitesmoke',
         marginTop: 10
     },
     todayEat:{
-        width:330,
+        width:useWidth,
         alignItems:'flex-start',
         marginTop: 20
     },
@@ -111,7 +113,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     shopPanel:{
-        width: 330,
+        width: useWidth,
         marginTop: 16,
         justifyContent:'flex-start',
         flexDirection:'row'
@@ -119,7 +121,7 @@ const styles = StyleSheet.create({
     },
     activitiesPanel:{
         marginTop: 32,
-        width: 330,
+        width: useWidth,
         justifyContent:'flex-start'
     }
 });

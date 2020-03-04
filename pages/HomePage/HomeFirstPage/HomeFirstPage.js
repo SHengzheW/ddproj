@@ -9,7 +9,9 @@ import global from '../../Global';
 
 
 
-const {allWidth, allHeight} = Dimensions.get('window');
+const allWidth = Dimensions.get('window').width;
+
+const useWidth = allWidth * 0.9;
 
 
 
@@ -31,7 +33,8 @@ export default class HomeFirstPage extends React.Component{
     componentDidMount(): void {
 
         let _this = this;
-
+        console.log(useWidth);
+        console.log(allWidth);
         //获取顶部banner的相关信息
         fetch(global.baseUrl+'/banner/home',{
             method:'GET',
@@ -40,7 +43,7 @@ export default class HomeFirstPage extends React.Component{
             }
         }).then((response)=>response.json())
             .then((res)=>{
-
+                console.log(res);
             });
 
 
@@ -69,6 +72,7 @@ export default class HomeFirstPage extends React.Component{
             }
         }).then((response)=>response.json())
             .then((res)=>{
+                console.log(res.data);
                 _this.setState({
                     recommendShopList: res.data.recommendShopList
                 });
@@ -139,7 +143,7 @@ export default class HomeFirstPage extends React.Component{
                     >
                         <Image
                             style={{
-                                width:330,
+                                width: useWidth,
                                 height:110
                             }}
                             source={require('../../images/Banner.jpg')}
@@ -201,8 +205,8 @@ export default class HomeFirstPage extends React.Component{
 
 const styles = StyleSheet.create({
     searchPanel:{
-        marginTop: 40,
-        width:330,
+        marginTop: global.useMarginTop,
+        width: useWidth,
         height:32,
         backgroundColor: 'whitesmoke',
         borderRadius: 16,
@@ -215,13 +219,13 @@ const styles = StyleSheet.create({
         color:'#555'
     },
     banner:{
-        width:330,
+        width:useWidth,
         height:110,
         backgroundColor:'whitesmoke',
         marginTop: 10
     },
     todayEat:{
-        width:330,
+        width: useWidth,
         alignItems:'flex-start',
         marginTop: 20
     },
@@ -230,7 +234,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     shopPanel:{
-        width: 330,
+        width: useWidth,
         marginTop: 16,
         justifyContent:'flex-start',
         flexDirection:'row'
@@ -238,7 +242,7 @@ const styles = StyleSheet.create({
     },
     activitiesPanel:{
         marginTop: 32,
-        width: 330,
+        width: useWidth,
         justifyContent:'flex-start'
     }
 });

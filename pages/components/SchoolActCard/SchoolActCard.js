@@ -1,10 +1,10 @@
 import React from 'react';
-import {Button, View, Text, ImageBackground} from 'react-native';
+import {Button, View, Text, ImageBackground, Dimensions} from 'react-native';
 import {StyleSheet} from 'react-native';
 import BoxShadow from 'react-native-shadow/lib/BoxShadow';
 
 
-
+const allWidth = Dimensions.get('window').width
 const contentWidth = 300;
 
 
