@@ -33,7 +33,7 @@ export default class SearchPage extends React.Component{
     };
 
 
-    componentDidMount(): void {
+    componentDidMount(){
         let _this = this;
 
         //获取所有搜索关键词

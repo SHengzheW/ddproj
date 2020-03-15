@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Button, Text,  Dimensions, Image} from 'react-native';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import global from '../Global';
+import global from '../../../Global';
 
 
 
-export default class SeeResume extends React.Component{
+export default class MyResume extends React.Component{
 
 
     constructor(props){
@@ -13,12 +13,14 @@ export default class SeeResume extends React.Component{
 
 
         this.state={
-            sourceUrl: this.props.navigation.state.params.sourceUrl,
-            name:this.props.navigation.state.params.name,
-            gender: this.props.navigation.state.params.gender,
-            introduction: this.props.navigation.state.params.introduction,
-            phone: this.props.navigation.state.params.phone,
-            profession: this.props.navigation.state.params.profession
+            sourceUrl: '',
+            name: '',
+            gender: '',
+            introduction: '',
+            phone: '',
+            profession: '',
+            grade: ''
+
         }
     }
 
@@ -29,6 +31,24 @@ export default class SeeResume extends React.Component{
 
 
     componentDidMount() {
+        let _this = this;
+        fetch(global.baseUrl+'/user/info',{
+            method:'get',
+            headers:{
+                Authorization:'Bearer '+global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                console.log(res);
+                
+                _this.setState({
+                    gender: res.data.sex === 0 ? '男' : '女',
+                    name: res.data.name,
+                    telephone: res.data.telephone,
+                    detail: res.data.detail,
+                    profession: res.data.profession
+                })
+            });    
     }
 
 
@@ -67,7 +87,7 @@ export default class SeeResume extends React.Component{
                                 }}
                             >
                                 <Image
-                                    source={require('../images/方向-左.png')}
+                                    source={require('../../../images/方向-左.png')}
                                     style={{
                                         width:24,
                                         height:24,
@@ -119,7 +139,7 @@ export default class SeeResume extends React.Component{
                     style={{
                         marginTop: 20,
                         width: allWidth,
-                        height: 168,
+                        
                         alignItems: 'center'
                     }}
                 >{
@@ -155,7 +175,7 @@ export default class SeeResume extends React.Component{
                     <View
                         style={{
                             width:64,
-                            height:20,
+                            
                             justifyContent:'center',
                             alignItems:'center',
                             marginTop: 16
@@ -175,7 +195,7 @@ export default class SeeResume extends React.Component{
                     <View
                         style={{
                             width:allWidth*0.7,
-                            height:20,
+                            
                             justifyContent:'center',
                             alignItems:'flex-start',
                             marginTop: 46
@@ -195,7 +215,29 @@ export default class SeeResume extends React.Component{
                     <View
                         style={{
                             width:allWidth*0.7,
-                            height:20,
+                            
+                            justifyContent:'center',
+                            alignItems:'flex-start',
+                            marginTop: 16
+                        }}
+                    >
+                        <Text
+                            style={{
+                                fontSize:14,
+                                color:'#333',
+                                fontWeight: 'bold',
+
+                            }}
+                        >
+                            {"入学年级："} {this.state.grade}
+                        </Text>
+                    </View>
+
+
+                    <View
+                        style={{
+                            width:allWidth*0.7,
+                            
                             justifyContent:'center',
                             alignItems:'flex-start',
                             marginTop: 16
@@ -217,7 +259,7 @@ export default class SeeResume extends React.Component{
                     <View
                         style={{
                             width:allWidth*0.7,
-                            height:20,
+                            
                             justifyContent:'center',
                             alignItems:'flex-start',
                             marginTop: 16
@@ -235,6 +277,21 @@ export default class SeeResume extends React.Component{
                         </Text>
                     </View>
 
+                </View>
+
+                <View style={styles.buttonPanel}>
+                    <TouchableOpacity
+                        onPress={()=>{this.props.navigation.navigate('ModifyResume',{});}}
+                    >
+                        <View style={styles.modifyButton}>
+                            <Text style={{
+                                fontSize:16,
+                                color:'white'
+                            }}>
+                                修改信息
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
 
 
@@ -260,6 +317,20 @@ const styles = StyleSheet.create({
         marginTop: global.useMarginTop,
         flexDirection:'row',
 
+    },
+    buttonPanel:{
+        marginTop: 60,
+        width: allWidth,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modifyButton:{
+        width: allWidth*0.85,
+        backgroundColor: '#55ACEE',
+        height: 40,
+        borderRadius: 5,
+        justifyContent:'center',
+        alignItems:'center'
     }
 
 });

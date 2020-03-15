@@ -21,7 +21,7 @@ export default class MyPage extends React.Component{
         }
     }
 
-    componentDidMount(): void {
+    componentDidMount() {
         let _this=this;
         fetch(global.baseUrl+'/user/identity',{
             method:'get',
@@ -48,6 +48,7 @@ export default class MyPage extends React.Component{
             }
         }).then((response)=>response.json())
             .then((res)=>{
+                console.log(res);
                 _this.setState({
                     newMessageStatus:res.data.status
                 })
@@ -99,7 +100,7 @@ export default class MyPage extends React.Component{
                     }}
                     key={1}
                 >
-                    带审核
+                    待审核
                 </Text>
             )
         }else{
@@ -255,19 +256,25 @@ export default class MyPage extends React.Component{
                                 height:80
                             }}
                         >
-                            <View
-                                style={{
-
+                            <TouchableOpacity
+                                onPress={()=>{
+                                    this.props.navigation.navigate('MyInfo',{stageName: this.state.stageName, sourceUrl: this.state.sourceUrl});
                                 }}
                             >
-                                <Image
-                                    source={require('../../../images/更多-白.png')}
+                                <View
                                     style={{
-                                        width:12,
-                                        height:20
+
                                     }}
-                                />
-                            </View>
+                                >
+                                    <Image
+                                        source={require('../../../images/更多-白.png')}
+                                        style={{
+                                            width:12,
+                                            height:20
+                                        }}
+                                    />
+                                </View>
+                            </TouchableOpacity>
                         </View>
                     </View>
 
@@ -281,26 +288,30 @@ export default class MyPage extends React.Component{
                         <View
                             style={styles.buttonPanel}
                         >
-                            <View
-                                style={styles.button}
+                            <TouchableOpacity 
+                                onPress={()=>{this.props.navigation.navigate('MyResume')}}
                             >
-                                <Image
-                                    source={require('../../../images/微简历.png')}
-                                    style={{
-                                        width:24,
-                                        height:24
-                                    }}
-                                />
-                                <Text
-                                    style={{
-                                        marginTop:5,
-                                        color:'#333',
-                                        fontSize:9
-                                    }}
+                                <View
+                                    style={styles.button}
                                 >
-                                    个人简历
-                                </Text>
-                            </View>
+                                    <Image
+                                        source={require('../../../images/微简历.png')}
+                                        style={{
+                                            width:24,
+                                            height:24
+                                        }}
+                                    />
+                                    <Text
+                                        style={{
+                                            marginTop:5,
+                                            color:'#333',
+                                            fontSize:9
+                                        }}
+                                    >
+                                        个人简历
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
                             <View
                                 style={styles.button}
                             >

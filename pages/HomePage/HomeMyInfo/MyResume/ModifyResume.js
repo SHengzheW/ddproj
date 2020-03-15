@@ -1,8 +1,7 @@
 import React from 'react';
 import {View, Text,Image, Button, StyleSheet, TextInput, Picker, ScrollView, Modal, TouchableHighlight, TouchableOpacity, Dimensions, Alert} from 'react-native';
+import global from '../../../Global';
 import {PickerView, TextareaItem} from '@ant-design/react-native';
-import PickerWidget from '../components/PickerWidget/PickerWidget';
-import global from '../Global';
 import ImagePicker from 'react-native-image-picker';
 
 
@@ -58,7 +57,7 @@ function ShowYear(props){
 }
 
 
-export default class FinishResume extends React.Component{
+export default class ModifyResume extends React.Component{
     constructor(props){
         super(props);
         this.state={
@@ -417,7 +416,7 @@ export default class FinishResume extends React.Component{
                                 }}
                             >
                                 <Image
-                                    source={require('../images/方向-左.png')}
+                                    source={require('../../../images/方向-左.png')}
                                     style={{
                                         width:24,
                                         height:24,
@@ -472,7 +471,7 @@ export default class FinishResume extends React.Component{
                         头像选择
                      */
                 }
-                <View style={styles.topImagePanel}>
+                {/* <View style={styles.topImagePanel}>
                     <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                         <View style={styles.imagePanel}>
                             {this.state.avatarSource === "" ? <Text style={{color:'white'}}>选择头像</Text> :
@@ -480,7 +479,7 @@ export default class FinishResume extends React.Component{
                             }
                         </View>
                     </TouchableOpacity>
-                </View>
+                </View> */}
 
 
                 {
@@ -765,7 +764,7 @@ export default class FinishResume extends React.Component{
                                     .then((responseJson)=>{
                                        console.log(responseJson);
                                        if(responseJson.code===0){
-                                        _this.props.navigation.navigate('HomePage');
+                                        _this.props.navigation.navigate('MyResume');
                                         global.token = responseJson.data.token;
                                         Alert.alert('填写成功！');
                                        }else{
@@ -787,7 +786,7 @@ export default class FinishResume extends React.Component{
                                 }}>提交审核</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             onPress={()=>{
                                 this.props.navigation.navigate('SeeResume',{profession: this.state.profession,
                                     sourceUrl: this.state.avatarSource,
@@ -803,7 +802,7 @@ export default class FinishResume extends React.Component{
                                     color:'#333'
                                 }}>查看简历模板</Text>
                             </View>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
 
 

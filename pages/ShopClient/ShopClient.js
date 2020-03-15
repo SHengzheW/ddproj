@@ -33,7 +33,7 @@ export default class ShopClient extends React.Component{
     };
 
 
-    componentDidMount(): void {
+    componentDidMount() {
     }
 
     render(){
@@ -264,12 +264,12 @@ const styles = StyleSheet.create({
     },
     topButtonPanel:{
         width: allWidth,
-        height:50,
+        height:30,
         flexDirection:'row',
     },
     topLeftButton:{
         width:100,
-        height:50,
+        height:30,
         paddingLeft: 20,
         alignItems: 'flex-start'
 

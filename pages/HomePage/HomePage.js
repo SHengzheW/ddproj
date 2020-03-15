@@ -12,6 +12,10 @@ import OrderList from './HomeMyOrder/OrderList/OrderList';
 import CommodityDetails from './CommodityDetails';
 import OrderDetails from './HomeMyOrder/OrderDetails/OrderDetails';
 import ShopDetails from './ShopDetails/ShopDetails';
+import MyResume from './HomeMyInfo/MyResume/MyResume';
+import MyInfo from './HomeMyInfo/MyInfo/MyInfo';
+import ModifyMyInfo from './HomeMyInfo/MyInfo/ModifyMyInfo';
+import ModifyResume from './HomeMyInfo/MyResume/ModifyResume';
 
 
 /**
@@ -77,7 +81,11 @@ const DetailsStack = createStackNavigator({
     SearchResult: SearchResult,
     CommodityDetails: CommodityDetails,
     OrderDetails: OrderDetails,
-    ShopDetails: ShopDetails
+    ShopDetails: ShopDetails,
+    MyResume: MyResume,
+    MyInfo: MyInfo,
+    ModifyMyInfo: ModifyMyInfo,
+    ModifyResume: ModifyResume
 },{
     defaultNavigationOptions:{
         header:null

@@ -30,7 +30,8 @@ const AppNavigator = createStackNavigator({
           TestPage: TestPage,
           ShopLogin: ShopLogin,
           SeeResume: SeeResume,
-          ShopClient: ShopClient
+          ShopClient: ShopClient,
+          
 },
     {
       initialRouteName:'First',

@@ -75,6 +75,7 @@ export default class FinishInvitation extends React.Component {
                     <TouchableOpacity
                         onPress={()=>{
                             let _this = this;
+                            console.log(this.state.text);
                             fetch(global.baseUrl+'/user/activation',{
                                 method:'post',
                                 credentials: 'include',
@@ -88,9 +89,15 @@ export default class FinishInvitation extends React.Component {
                                 })
                             }).then((response)=>response.json())
                                 .then((responseJson)=>{
-                                    console.log('???');
-                                    Alert.alert('填写成功！');
-                                    _this.props.navigation.navigate('FinishResume');
+                                    console.log(responseJson);
+                                    if(responseJson.code===0){
+                                        console.log(responseJson);
+                                        global.token = responseJson.data.token;
+                                        Alert.alert('填写成功！');
+                                        _this.props.navigation.navigate('FinishResume');
+                                    }else{
+                                        Alert.alert('账户类型出错！请重新登录');
+                                    }
                                 }).catch((error)=>{
                                 console.log(error);
                             })

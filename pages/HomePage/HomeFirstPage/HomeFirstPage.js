@@ -30,7 +30,7 @@ export default class HomeFirstPage extends React.Component{
     };
 
 
-    componentDidMount(): void {
+    componentDidMount(){
 
         let _this = this;
         console.log(useWidth);
@@ -92,8 +92,9 @@ export default class HomeFirstPage extends React.Component{
            todayEatItems.push(
                <TouchableOpacity
                    onPress={()=>{
-                       this.props.navigation.navigate('ShopDetails');
+                       this.props.navigation.navigate('ShopDetails',{id: item.shop.id});
                    }}
+                   key={item.shop.id}
                >
                 <ShopCard avater={item.shop.avater} name={item.shop.title} key={item.shop.id}/>
                </TouchableOpacity>

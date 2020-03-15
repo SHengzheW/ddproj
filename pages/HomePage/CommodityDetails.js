@@ -96,7 +96,7 @@ export default class CommodityDetails extends React.Component{
 
     }
 
-    componentDidMount(): void {
+    componentDidMount(){
         let _this = this;
         fetch(global.baseUrl+'/detail/food?id='+this.state.id,{
             method:'get',

@@ -15,7 +15,7 @@ export default class ShopDetails extends React.Component{
         super(props);
 
         this.state={
-            id:'20',
+            id:this.props.navigation.state.params.id,
             shopName:'宴遇 创意中国菜',
             shortBrief:'厦门第一创意菜',
             priceAverage:'46',
@@ -33,7 +33,8 @@ export default class ShopDetails extends React.Component{
         }
 
     }
-    componentDidMount(): void {
+    componentDidMount() {
+        console.log(this.state.id);
         fetch(global.baseUrl+'/details/shop?id='+this.state.id,{
             method:'get',
             headers:{
@@ -43,6 +44,17 @@ export default class ShopDetails extends React.Component{
             .then((res)=>{
                 console.log(res.data);
             })
+
+
+        fetch(global.baseUrl+'/summary/shop?id='+this.state.id,{
+                method:'get',
+                headers:{
+                    Authorization:'Bearer '+global.token
+                }
+        }).then((response)=>response.json())
+                .then((res)=>{
+                    console.log(res.data);
+                })
     }
 
 

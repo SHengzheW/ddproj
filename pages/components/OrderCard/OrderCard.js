@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, Image, Button} from 'react-native';
+import {View, Text, Image, Button, Alert} from 'react-native';
 import {StyleSheet, Dimensions} from 'react-native';
 import {BoxShadow} from 'react-native-shadow';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const allWidth = Dimensions.get('window').width;
 
@@ -14,13 +15,22 @@ export default class OrderCard extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            orderState:'待使用',
+            type: this.props.type,
+            orderState: this.props.status,
             orderName:'厦饭酸汤鱼·单人餐：小份…',
             imgUrl:require('../../images/酸菜鱼.jpg'),
             numbers:'2',
             exchangeName:'厦饭酸菜鱼',
             introduction:'真的好吃，吃饭不用菜'
         }
+    }
+
+    confirmDelivery(){
+        Alert.alert('收货成功！');
+        this.setState({
+            orderState: 2
+        });
+
     }
 
 
@@ -50,20 +60,27 @@ export default class OrderCard extends React.Component{
                     <View
                         style={styles.topPanel}
                     >
+                        {
+                            /**
+                             * 订单类型
+                             */
+                        }
                         <View
                             style={styles.titlePanel}
                         >
-                            <Text
-                                style={{
-                                    color:'#fff'
-                                }}
-                            >
-                                美食
-                            </Text>
+                            
+                                {
+                                    this.state.type === 0 ? <Text style={styles.tagText}>美食</Text> :
+                                    this.state.type === 1 ? <Text style={styles.tagText}>校园活动</Text> :
+                                    <Text style={styles.tagText}>特惠</Text>
+                                
+                                
+                                }
+                            
                         </View>
                         <View
                             style={{
-                                width:175/375*allWidth,
+                                width:cardWidth-22-42-80,
                                 height:20,
                                 marginTop: 4,
                                 marginLeft: 10,
@@ -73,23 +90,27 @@ export default class OrderCard extends React.Component{
                                 {this.state.orderName}
                             </Text>
                         </View>
-
+                        {
+                            /**
+                             * 订单状态
+                             */
+                        }
                         <View
                             style={{
                                 width:42,
                                 height:17,
                                 marginTop: 4,
-                                marginLeft: 20,
+                                marginLeft: 10,
                             }}
                         >
-                            <Text
-                                style={{
-                                    color:'#666666',
-                                    fontSize:14
-                                }}
-                            >
-                                {this.state.orderState}
-                            </Text>
+                            {
+                                this.state.orderState === 0 ? <Text style={styles.statusText}>未支付</Text> :
+                                this.state.orderState === 1 ? <Text style={styles.statusText}>待使用</Text> :
+                                this.state.orderState === 4 ? <Text style={styles.statusText}>已发货</Text> :
+                                this.state.orderState === 5 ? <Text style={styles.statusText}>处理中</Text> :
+                                this.state.orderState === 2 ? <Text style={styles.statusText}>已完成</Text> :
+                                <Text style={styles.statusText}>已取消</Text> 
+                            }                            
                         </View>
 
                     </View>
@@ -153,34 +174,73 @@ export default class OrderCard extends React.Component{
 
                             </View>
                         </View>
-
+                        {
+                            /**
+                             * 订单卡片下方的按钮
+                             */
+                        }
                         <View
                             style={{
                                 width: cardWidth,
                                 alignItems:'flex-end'
                             }}
                         >
-                            <View
-                                style={{
-                                    marginTop:8,
-                                    width:100,
-                                    height: 26,
-                                    justifyContent: 'center',
-                                    alignItems:'center',
-                                    borderWidth:1,
-                                    borderRadius:13,
-                                    borderColor:'#55acee',
-                                    marginRight:24
-                                }}
-                            >
+                            {
+                                this.state.orderState === 0 ?
+                                <View style={styles.bottomButton}>
+                                    <Text
+                                        style={styles.buttonText}
+                                    >
+                                        去付款
+                                    </Text>
+                                </View> :
+                                this.state.orderState === 1 ?
+                                <View style={styles.bottomButton}>
+                                    <Text
+                                        style={styles.buttonText}
+                                    >
+                                        兑换码
+                                    </Text>
+                                </View> :
+                                this.state.orderState === 4 ?
+                                <View style={{width: cardWidth, flexDirection:'row', alignItems:'flex-end',justifyContent:'flex-end'}}>
+                                    <TouchableOpacity
+                                        onPress={()=>{
+                                            Alert.alert('确认收货','确认收货吗？',
+                                                [
+                                                    {text:"确认", onPress:this.confirmDelivery.bind(this)},
+                                                    {text:"取消", onPress:this.seeDelivery},
+                                                    
+                                                ]
+                                                );
+                                        }}
+                                    >
+                                        <View style={styles.bottomButton}>
+                                            <Text
+                                                style={styles.buttonText}
+                                            >
+                                                确认收货
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <View style={styles.bottomButton}>
+                                        <Text
+                                            style={styles.buttonText}
+                                        >
+                                            查看物流
+                                        </Text>
+                                    </View>
+                                </View> :
+                                <View style={styles.bottomButton}>
                                 <Text
-                                    style={{
-                                        color:'#55acee',
-                                    }}
+                                    style={styles.buttonText}
                                 >
-                                    确认收货
+                                    删除订单
                                 </Text>
                             </View>
+                                
+
+                            }
                         </View>
 
                     </View>
@@ -213,11 +273,13 @@ const styles = StyleSheet.create({
     },
     titlePanel:{
         marginLeft: 12,
-        height: 23,
+        height: 20,
+        width: 70,
         paddingLeft:11,
         paddingRight:11,
-        backgroundColor:'#ffbf2c',
+        backgroundColor:'#87CEFA',
         borderRadius: 11,
+        marginTop: 5,
         alignItems:'center',
         justifyContent:'center'
     },
@@ -239,5 +301,27 @@ const styles = StyleSheet.create({
     fontsPanel:{
         marginLeft:12,
 
+    },
+    tagText:{ 
+        color:'#fff',
+        fontSize: 10
+    },
+    statusText:{
+        color:'#666666',
+        fontSize:12
+    },
+    bottomButton:{
+        marginTop:8,
+        width:90,
+        height: 26,
+        justifyContent: 'center',
+        alignItems:'center',
+        borderWidth:1,
+        borderRadius:13,
+        borderColor:'#55acee',
+        marginRight:14
+    },
+    buttonText: {
+        color:'#55acee',
     }
 });

@@ -27,15 +27,26 @@ export default class OrderList extends React.Component{
             secondFont:'normal',
             thirdFont:'normal',
             forthFont:'normal',
-            fifthFont:'normal'
+            fifthFont:'normal',
+            tabChooice: 0,
+            allOrderList:[],
+            nopayOrderList:[],
+            toUseOrderList:[],
+            deliveryOrderList:[],
+            processOrderList:[],
+
+
         }
     }
 
 
-    componentDidMount(): void {
+    componentDidMount() {
         let _this = this;
         console.log(global.token);
 
+        /**
+         * 获取所有订单
+         */
         fetch(global.baseUrl+'/order/me/all?status=-1',{
             method:'get',
             headers:{
@@ -44,6 +55,73 @@ export default class OrderList extends React.Component{
         }).then((response)=>response.json())
             .then((res)=>{
                 console.log(res.data);
+                _this.setState({
+                    allOrderList: res.data.orderList
+                })
+            })
+        
+
+        /**
+         * 获取未支付订单
+         */
+        fetch(global.baseUrl+'/order/me/all?status=0',{
+            method:'get',
+            headers:{
+                Authorization:'Bearer '+global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                console.log(res.data);
+                _this.setState({
+                    nopayOrderList: res.data.orderList
+                })
+            })
+
+        /**
+         * 获取待使用订单
+         */
+        fetch(global.baseUrl+'/order/me/all?status=1',{
+            method:'get',
+            headers:{
+                Authorization:'Bearer '+global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                console.log(res.data);
+                _this.setState({
+                    toUseOrderList: res.data.orderList
+                })
+            })
+        /**
+         * 获取已发货订单
+         */
+        fetch(global.baseUrl+'/order/me/all?status=4',{
+            method:'get',
+            headers:{
+                Authorization:'Bearer '+global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                console.log(res.data);
+                _this.setState({
+                    delivertOrderList: res.data.orderList
+                })
+            })
+
+        /**
+         * 获取处理中订单
+         */
+        fetch(global.baseUrl+'/order/me/all?status=5',{
+            method:'get',
+            headers:{
+                Authorization:'Bearer '+global.token
+            }
+        }).then((response)=>response.json())
+            .then((res)=>{
+                console.log(res.data);
+                _this.setState({
+                    processOrderList: res.data.orderList
+                })
             })
     }
 
@@ -53,6 +131,27 @@ export default class OrderList extends React.Component{
 
 
     render(){
+        
+        {
+            /**
+             * 渲染所有订单的卡片
+             */
+        }
+        if(this.state.allOrderList.length!==0){
+            let allOrderCards = [];
+            let allOrderList = this.state.allOrderList;
+            allOrderList.forEach((item)=>{
+                allOrderCards.push(
+                    <TouchableOpacity
+                        onPress={()=>{
+                            this.props.navigation.navigate('OrderDetails',{id: item.id})
+                        }}
+                    >
+                        <OrderCard status={item.status} type={item.type} wares={item.wares} orgPrice={item.orgPrice} price={item.price}></OrderCard>
+                    </TouchableOpacity>
+                )
+            })
+        }
 
         const shadowOpt = {
             width:330, //包裹的子内容多宽这里必须多宽
@@ -162,18 +261,19 @@ export default class OrderList extends React.Component{
 
                                 onPress={()=>{
 
-                                    Animated.timing(this.state.leftWhiteSpace,{
-                                        toValue : 0,
-                                        useNativeDriver: true
-                                    }).start();
+                                    // Animated.timing(this.state.leftWhiteSpace,{
+                                    //     toValue : 0,
+                                    //     useNativeDriver: true
+                                    // }).start();
 
                                     this.setState({
-                                        // leftWhiteSpace: 0,
+                                        leftWhiteSpace: 0,
                                         firstFont:'bold',
                                         secondFont:'normal',
                                         thirdFont:'normal',
                                         forthFont:'normal',
-                                        fifthFont:'normal'
+                                        fifthFont:'normal',
+                                        tabChooice: 0
                                     })
                                 }}
                             >
@@ -197,18 +297,19 @@ export default class OrderList extends React.Component{
 
                                 onPress={()=>{
 
-                                    Animated.timing(this.state.leftWhiteSpace,{
-                                        toValue : tabWidth,
-                                        useNativeDriver: true
-                                    }).start();
+                                    // Animated.timing(this.state.leftWhiteSpace,{
+                                    //     toValue : tabWidth,
+                                    //     useNativeDriver: true
+                                    // }).start();
 
                                     this.setState({
-                                        // leftWhiteSpace: tabWidth,
+                                        leftWhiteSpace: tabWidth,
                                         firstFont:'normal',
                                         secondFont:'bold',
                                         thirdFont:'normal',
                                         forthFont:'normal',
-                                        fifthFont:'normal'
+                                        fifthFont:'normal',
+                                        tabChooice: 1
                                     })
                                 }}
                             >
@@ -232,18 +333,19 @@ export default class OrderList extends React.Component{
 
                                 onPress={()=>{
 
-                                    Animated.timing(this.state.leftWhiteSpace,{
-                                        toValue : 2 * tabWidth,
-                                        useNativeDriver: true
-                                    }).start();
+                                    // Animated.timing(this.state.leftWhiteSpace,{
+                                    //     toValue : 2 * tabWidth,
+                                    //     useNativeDriver: true
+                                    // }).start();
 
                                     this.setState({
-                                        // leftWhiteSpace: 2 * tabWidth,
+                                        leftWhiteSpace: 2 * tabWidth,
                                         firstFont:'normal',
                                         secondFont:'normal',
                                         thirdFont:'bold',
                                         forthFont:'normal',
-                                        fifthFont:'normal'
+                                        fifthFont:'normal',
+                                        tabChooice: 2
                                     })
                                 }}
                             >
@@ -266,18 +368,19 @@ export default class OrderList extends React.Component{
 
                                 onPress={()=>{
 
-                                    Animated.timing(this.state.leftWhiteSpace,{
-                                        toValue : 3 * tabWidth,
-                                        useNativeDriver: true
-                                    }).start();
+                                    // Animated.timing(this.state.leftWhiteSpace,{
+                                    //     toValue : 3 * tabWidth,
+                                    //     useNativeDriver: true
+                                    // }).start();
 
                                     this.setState({
-                                        // leftWhiteSpace: 3 * tabWidth,
+                                        leftWhiteSpace: 3 * tabWidth,
                                         firstFont:'normal',
                                         secondFont:'normal',
                                         thirdFont:'normal',
                                         forthFont:'bold',
-                                        fifthFont:'normal'
+                                        fifthFont:'normal',
+                                        tabChooice: 3
                                     })
                                 }}
                             >
@@ -300,17 +403,19 @@ export default class OrderList extends React.Component{
 
                                 onPress={()=>{
 
-                                    Animated.timing(this.state.leftWhiteSpace,{
-                                        toValue : 4 * tabWidth,
-                                        useNativeDriver: true
-                                    }).start();
+                                    // Animated.timing(this.state.leftWhiteSpace,{
+                                    //     toValue : 4 * tabWidth,
+                                    //     useNativeDriver: true
+                                    // }).start();
 
                                     this.setState({
+                                        leftWhiteSpace: 4 * tabWidth,
                                         firstFont:'normal',
                                         secondFont:'normal',
                                         thirdFont:'normal',
                                         forthFont:'normal',
-                                        fifthFont:'bold'
+                                        fifthFont:'bold',
+                                        tabChooice: 4
                                     })
                                 }}
                             >
@@ -352,6 +457,8 @@ export default class OrderList extends React.Component{
                 </View>
 
                 <ScrollView>
+                    {
+                    this.state.tabChooice === 0 ? 
                     <View
                         style={{
                             flex:1,
@@ -359,26 +466,36 @@ export default class OrderList extends React.Component{
                             alignItems:'center'
                         }}
                     >
-                        <OrderCard/>
+                        <OrderCard status={4} type={0}/>
                         <TouchableOpacity
                             onPress={()=>{
                                 this.props.navigation.navigate('OrderDetails')
                             }}
                         >
-                            <OrderCard/>
+                            <OrderCard status={1} type={1}/>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={()=>{
                                 this.props.navigation.navigate('ShopDetails')
                             }}
                         >
-                            <OrderCard/>
+                            <OrderCard status={0} type={0}/>
                         </TouchableOpacity>
-                        <OrderCard/>
-                        <OrderCard/>
-                        <OrderCard/>
+                        <TouchableOpacity
+                            onPress={()=>{
+                                this.props.navigation.navigate('CommodityDetails')
+                            }}
+                            >
+                            <OrderCard status={0} type={0}/>
+                        </TouchableOpacity>
+                        <OrderCard status={0} type={0}/>
+                        <OrderCard status={0} type={0}/>
 
                     </View>
+                    :
+                    <View/>
+                        
+                    }
                 </ScrollView>
 
 

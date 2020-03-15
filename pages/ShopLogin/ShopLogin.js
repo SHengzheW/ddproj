@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Image, Text, Dimensions, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import global from '../Global';
 
 
 
@@ -20,7 +21,7 @@ export default class ShopLogin extends React.Component{
       header: null
     };
 
-    componentDidMount(): void {
+    componentDidMount() {
     }
 
 
@@ -68,7 +69,8 @@ export default class ShopLogin extends React.Component{
                               height: 40,
                               width:allWidth*0.8,
                               fontSize: 14,
-                              borderWidth: 1,
+                              borderWidth: 0,
+                              borderBottomWidth: 1,
                               borderTopColor: '#fff',
                               borderLeftColor: '#fff',
                               borderRightColor: '#fff',
@@ -109,7 +111,8 @@ export default class ShopLogin extends React.Component{
                               height: 40,
                               width:allWidth*0.8,
                               fontSize: 14,
-                              borderWidth: 1,
+                              borderWidth: 0,
+                              borderBottomWidth: 1,
                               borderTopColor: '#fff',
                               borderLeftColor: '#fff',
                               borderRightColor: '#fff',
@@ -226,7 +229,7 @@ const styles = StyleSheet.create({
     topBar:{
        width: allWidth,
         height: 40,
-        marginTop: 50,
+        marginTop: global.useMarginTop,
     },
     mainContent:{
        width: allWidth*0.8,

@@ -20,7 +20,7 @@ export default class HomeSecondPage extends React.Component{
     }
 
 
-    componentDidMount(): void {
+    componentDidMount() {
         fetch(global.baseUrl+'/summary/activity',{
             method : 'GET',
             headers:{

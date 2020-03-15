@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Button, Text, StyleSheet,TouchableOpacity} from 'react-native';
+import {View, Image, Button, Text, StyleSheet,TouchableOpacity} from 'react-native';
 import global from '../Global';
 
 
@@ -24,9 +24,7 @@ export default class FirstPage extends React.Component{
         return(
             <View style={styles.container}>
                 <View style={styles.imagePanel}>
-                    <View style={styles.circleImage}>
-
-                    </View>
+                    <Image style={styles.circleImage} source={require('../images/icon.png')}  />
                 </View>
                 <View style={styles.fontsPanel}>
                     <Text style={styles.titleFonts}>叮当口袋</Text>
@@ -45,13 +43,17 @@ export default class FirstPage extends React.Component{
                           },
                           body:JSON.stringify({
                               channel: 0,
-                              uid:'ss5hane1'
+                              uid:'dss5haned155ddhhw'
                         })
                         }).then((response)=>response.json())
                             .then((responseJSON)=>{
                                 console.log(responseJSON);
                                 global.token = responseJSON.data.token;
-                                _this.props.navigation.navigate('FinishInvitation');
+                                if(responseJSON.data.role===0){
+                                    _this.props.navigation.navigate('FinishInvitation');    
+                                }else{
+                                    _this.props.navigation.navigate('HomePage');
+                                }
                             });
                         // this.props.navigation.navigate('FinishInvitation');
                     }}>
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
         // backgroundColor:'#000'
     },
     imagePanel:{
-      width: 280,
+        width: 280,
         marginTop:-100
     },
     circleImage:{
